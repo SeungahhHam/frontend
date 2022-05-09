@@ -10,6 +10,7 @@ function FreeScreen({navigation}) {
   const [lists, setLists] = useState([]);
   const [loading, setLoading] = useState(true);
   const isFocused = useIsFocused();
+  const classification = 'free';
 
   useEffect(() => {
     fetch(`${BASE_URL}/api/community/free/list`)
@@ -22,7 +23,7 @@ function FreeScreen({navigation}) {
   return (
     <View style={styles.block}>
       <View style={styles.semiblock}>
-        <SearchBar />
+        <SearchBar classification={classification} />
       </View>
 
       <ScrollView>
@@ -37,9 +38,10 @@ function FreeScreen({navigation}) {
                   date={free.time}
                   title={free.title}
                   body={free.text}
-                  id={free.id}
+                  id={free._id}
                   token={free.token}
                   nickname={free.nickname}
+                  userImage={free.imagepath}
                 />
               ))
           )}

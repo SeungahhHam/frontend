@@ -46,11 +46,17 @@ function LoginScreen({navigation}) {
           //로그인 성공시
           AsyncStorage.setItem(
             'userData',
-            JSON.stringify({token: jsonRes.token, nickname: jsonRes.nickname}),
+            JSON.stringify({
+              token: jsonRes.token,
+              nickname: jsonRes.nickname,
+              userImage: jsonRes.userImage,
+            }),
           ); //로그인할 때 적은
 
           console.log(JSON.stringify(jsonRes.token));
           console.log(JSON.stringify(jsonRes.nickname));
+          console.log(JSON.stringify(jsonRes.userImage));
+
           navigation.replace('MainTab');
         } else {
           console.log('Please check your id or password');

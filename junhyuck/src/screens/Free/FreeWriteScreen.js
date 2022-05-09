@@ -13,6 +13,7 @@ function FreeWriteScreen() {
   const [body, setBody] = useState('');
   const [userToken, setUserToken] = useState('');
   const [userNickname, setUserNickname] = useState('');
+  const [userProfile, setUserProfile] = useState('');
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -22,6 +23,7 @@ function FreeWriteScreen() {
         const saveduserDatas = JSON.parse(userDatas);
         setUserToken(saveduserDatas.token);
         setUserNickname(saveduserDatas.nickname);
+        setUserProfile(saveduserDatas.userImage);
       } catch (e) {}
     }
     load();
@@ -44,6 +46,7 @@ function FreeWriteScreen() {
       _id: uuidv4(),
       token: userToken,
       nickname: userNickname,
+      imagepath: userProfile,
     };
 
     console.log(dataToSend);

@@ -18,6 +18,7 @@ function RecruitScreen({navigation}) {
   const [lists, setLists] = useState([]);
   const [loading, setLoading] = useState(true);
   const isFocused = useIsFocused();
+  const classification = 'recruit';
 
   useEffect(() => {
     fetch(`${BASE_URL}/api/community/recruit/list`)
@@ -30,7 +31,7 @@ function RecruitScreen({navigation}) {
   return (
     <View style={styles.block}>
       <View style={styles.semiblock}>
-        <SearchBar />
+        <SearchBar classification={classification} />
       </View>
 
       <ScrollView>
@@ -45,7 +46,7 @@ function RecruitScreen({navigation}) {
                   date={recruit.time}
                   title={recruit.title}
                   body={recruit.text}
-                  id={recruit.id}
+                  id={recruit._id}
                   token={recruit.token}
                   nickname={recruit.nickname}
                 />

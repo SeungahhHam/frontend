@@ -6,20 +6,76 @@ import {
   TouchableOpacity,
   View,
   StyleSheet,
-  Alert,
+  Pressable,
+  Platform,
+  Image,
 } from 'react-native';
 import {BASE_URL} from '../config';
-import SetupProfile from '../components/SetupProfile';
+import {launchImageLibrary} from 'react-native-image-picker';
+import {useNavigation} from '@react-navigation/native';
 
-function RegisterScreen({navigation}) {
+function RegisterScreen() {
   const [userName, setUserName] = useState('');
   const [userNickname, setUserNickname] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [userPasswordchk, setUserPasswordchk] = useState('');
   const [errortext, setErrortext] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [response, setResPonse] = useState(null);
+  const [test, setTest] = useState('');
 
+  const navigation = useNavigation();
+
+  //프로필 사진 컴포넌트
+  const onSelectImage = async () => {
+    const image = {
+      uri: '',
+      type: 'image/jpeg',
+      name: 'test',
+    };
+    await launchImageLibrary(
+      {
+        mediaType: 'photo',
+        maxWidth: 512,
+        maxHeight: 512,
+        includeBase64: Platform.OS === 'android',
+      },
+      res => {
+        if (res.didCancel) {
+          console.log('User cancelled image picker');
+        } else if (res.errorCode) {
+          console.log('ImagePicker Error: ', res.errorCode);
+        } else if (res.assets) {
+          //정상적으로 사진을 반환 받았을 때
+          console.log('ImagePicker res');
+          setResPonse(res);
+          image.name = res.assets[0].fileName;
+          image.type = res.assets[0].type;
+          image.uri =
+            Platform.OS === 'android'
+              ? res.assets[0].uri
+              : res.assets[0].uri.replace('file://', '');
+        }
+      },
+    );
+    const formdata = new FormData();
+    formdata.append('u_img', image);
+
+    const requestOptions = {
+      method: 'POST',
+      body: formdata,
+      redirect: 'follow',
+      // headers :{'Content-Type': 'multipart/form-data'} 헤더를 지정해줄거면 multipart/form-data로 지정해주어야함
+      // headers를 위처럼 따로 지정해 주지 않아도 되긴 함
+    };
+
+    await fetch('http://3.34.32.228:5000/api/image/uploadUser', requestOptions)
+      .then(response => response.text())
+      .then(result => setTest(result))
+      .catch(error => console.log('error', error));
+  };
+
+  //회원가입 컴포넌트
   const registerButton = () => {
     if (!userName) {
       setErrortext('이름을 입력해주세요');
@@ -52,39 +108,25 @@ function RegisterScreen({navigation}) {
       setErrortext('');
     }
 
-    var dataToSend = {
+    navigation.navigate('Keyword', {
       name: userName,
       nickname: userNickname,
       email: userEmail,
       password: userPassword,
-    };
-
-    console.log(dataToSend);
-
-    fetch(`${BASE_URL}/api/user/register`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(dataToSend),
-    }).then(async res => {
-      try {
-        const jsonRes = await res.json();
-        console.log(jsonRes);
-        if (jsonRes.success === true) {
-          navigation.navigate('Keyword');
-        } else {
-          console.log('이미 가입된 이메일이 있습니다');
-          setErrortext('이미 가입된 이메일이 있습니다');
-        }
-      } catch (err) {
-        console.log(err);
-      }
+      userImage: test,
     });
   };
   return (
     <View style={styles.container}>
-      <SetupProfile />
+      <View style={styles.block}>
+        <Pressable style={styles.circle} onPress={onSelectImage}>
+          <Image
+            style={styles.circle}
+            source={{uri: response?.assets[0]?.uri}}
+          />
+        </Pressable>
+        <View style={styles.form}></View>
+      </View>
       <View style={styles.wrapper}>
         <TextInput
           style={styles.input}
@@ -155,6 +197,18 @@ const styles = StyleSheet.create({
     color: 'red',
     fontSize: 15,
     marginBottom: 10,
+  },
+  block: {
+    alignItems: 'center',
+    marginTop: 24,
+    paddingHorizontal: 16,
+    width: '100%',
+  },
+  circle: {
+    backgroundColor: '#cdcdcd',
+    borderRadius: 64,
+    width: 128,
+    height: 128,
   },
 });
 

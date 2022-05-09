@@ -5,16 +5,18 @@ import {
   TextInput,
   useWindowDimensions,
   View,
+  Keyboard,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
 
-function SearchBar() {
+function SearchBar({classification}) {
   const {width} = useWindowDimensions();
-  const [keyword, onChangeText] = useState('');
+  const [keyword, setKeyword] = useState('');
   const navigation = useNavigation();
   const onGoSearch = () => {
-    navigation.navigate('FreeSearch');
+    navigation.navigate('FreeSearch', {id: keyword, classify: classification}); //검색페이지로 키워드와 분류 전송
+    Keyboard.dismiss();
   };
 
   return (
@@ -22,13 +24,12 @@ function SearchBar() {
       <TextInput
         style={styles.input}
         placeholder="검색어를 입력하세요"
-        value={keyword}
-        onChangeText={onChangeText}
+        onChangeText={setKeyword}
         autoFocus
       />
       <Pressable
         style={({pressed}) => [styles.button, pressed && {opacity: 0.5}]}
-        onPress={() => onChangeText('')}>
+        onPress={() => setKeyword(' ')}>
         <Icon name="cancel" size={20} color="#9e9e9e" />
       </Pressable>
       <Pressable

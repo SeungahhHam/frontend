@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Pressable, StyleSheet, Text, Platform, View, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {ko} from 'date-fns/locale';
@@ -26,7 +26,7 @@ function truncate(text) {
   return replaced.slice(0, 100).concat('...');
 }
 
-function FreeListItem({title, date, body, id, token, nickname}) {
+function FreeListItem({title, date, body, id, token, nickname, userImage}) {
   const navigation = useNavigation();
   const onPress = () => {
     navigation.navigate('FreeDetail', {
@@ -36,8 +36,10 @@ function FreeListItem({title, date, body, id, token, nickname}) {
       id,
       token,
       nickname,
+      userImage,
     });
   };
+  console.log(userImage);
 
   return (
     <Pressable
@@ -51,7 +53,13 @@ function FreeListItem({title, date, body, id, token, nickname}) {
         <View style={[styles.head, styles.paddingBlock]}>
           <Pressable style={styles.profile}>
             <Image
-              source={require('../../Assets/images/user.png')}
+              source={
+                userImage
+                  ? {
+                      uri: userImage,
+                    }
+                  : require('../../Assets/images/user.png')
+              }
               style={styles.avator}
             />
             <View>

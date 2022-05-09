@@ -1,8 +1,26 @@
 import React from 'react';
 import {StyleSheet, Modal, View, Pressable, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {useNavigation} from '@react-navigation/native';
 
-function Moidfy_DeleteModeModal({visible, onClose, onAskDelete}) {
+function Moidfy_DeleteModeModal({
+  visible,
+  onClose,
+  onAskDelete,
+  modifyTitle,
+  modifyBody,
+  modifyId,
+  board,
+}) {
+  const navigation = useNavigation();
+  const onPress = () => {
+    navigation.navigate('Modify', {
+      title: modifyTitle,
+      body: modifyBody,
+      id: modifyId,
+      routing: board,
+    });
+  };
   return (
     <Modal
       visible={visible}
@@ -13,7 +31,7 @@ function Moidfy_DeleteModeModal({visible, onClose, onAskDelete}) {
         <View style={styles.whiteBox}>
           <Pressable
             style={styles.actionButton}
-            onPress={() => {}}
+            onPress={onPress}
             android_ripple={{color: '#eee'}}>
             <Icon name="edit" color="#757575" size={24} style={styles.icon} />
             <Text style={styles.actionText}>수정하기</Text>
