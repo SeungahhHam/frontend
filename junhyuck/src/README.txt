@@ -28,3 +28,5 @@ yarn add react-native-progress	// 상태진행바 관련 라이브러리
 yarn add react-native-multi-selectbox	//키워드 선택에 필요한 멀티선택바 라이브러리
 yarn add react-native-svg	//키워드 선택에 필요한 멀티선택바 라이브러리
 yarn add react-native-image-picker	//이미지 처리 관련 라이브러리
+
+mm
