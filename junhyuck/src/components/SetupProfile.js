@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Pressable, StyleSheet, View, Platform, Image} from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import AsyncStorage from '@react-native-community/async-storage';
 
 function SetupProfile() {
   const [response, setResPonse] = useState(null);
+  const [test, setTest] = useState('');
   const onSelectImage = async () => {
     const image = {
       uri: '',
@@ -25,7 +26,7 @@ function SetupProfile() {
           console.log('ImagePicker Error: ', res.errorCode);
         } else if (res.assets) {
           //정상적으로 사진을 반환 받았을 때
-          console.log('ImagePicker res', res);
+          console.log('ImagePicker res');
           setResPonse(res);
           image.name = res.assets[0].fileName;
           image.type = res.assets[0].type;
@@ -37,7 +38,7 @@ function SetupProfile() {
       },
     );
     const formdata = new FormData();
-    formdata.append('img', image);
+    formdata.append('u_img', image);
 
     const requestOptions = {
       method: 'POST',
@@ -47,11 +48,12 @@ function SetupProfile() {
       // headers를 위처럼 따로 지정해 주지 않아도 되긴 함
     };
 
-    await fetch('http://3.34.32.228:5000/api/image/uploadOne', requestOptions)
+    await fetch('http://3.34.32.228:5000/api/image/uploadUser', requestOptions)
       .then(response => response.text())
-      .then(result => console.log(result))
+      .then(result => setTest(result))
       .catch(error => console.log('error', error));
   };
+
   return (
     <View style={styles.block}>
       <Pressable style={styles.circle} onPress={onSelectImage}>

@@ -10,6 +10,7 @@ function CertificationScreen({navigation}) {
   const [lists, setLists] = useState([]);
   const [loading, setLoading] = useState(true);
   const isFocused = useIsFocused();
+  const classification = 'certify'; //경로 지정하기 위한 변수
 
   useEffect(() => {
     fetch(`${BASE_URL}/api/community/certify/list`)
@@ -22,7 +23,7 @@ function CertificationScreen({navigation}) {
   return (
     <View style={styles.block}>
       <View style={styles.semiblock}>
-        <SearchBar />
+        <SearchBar classification={classification} />
       </View>
 
       <ScrollView>
@@ -37,7 +38,7 @@ function CertificationScreen({navigation}) {
                   date={certify.time}
                   title={certify.title}
                   body={certify.text}
-                  id={certify.id}
+                  id={certify._id}
                   token={certify.token}
                   nickname={certify.nickname}
                 />

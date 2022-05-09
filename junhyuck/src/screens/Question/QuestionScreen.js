@@ -1,13 +1,5 @@
 import React, {useContext, useState, useEffect} from 'react';
-import {
-  StyleSheet,
-  View,
-  Button,
-  Text,
-  Pressable,
-  FlatList,
-  ScrollView,
-} from 'react-native';
+import {StyleSheet, View, Text, ScrollView} from 'react-native';
 import QuestionFloatingWriteButton from './QuestionFloatingWriteButton';
 import SearchBar from '../../components/SearchBar';
 import QuestionList from './QuestionListItem';
@@ -18,6 +10,7 @@ function QuestionScreen({navigation}) {
   const [lists, setLists] = useState([]);
   const [loading, setLoading] = useState(true);
   const isFocused = useIsFocused();
+  const classification = 'question';
 
   useEffect(() => {
     fetch(`${BASE_URL}/api/community/question/list`)
@@ -30,7 +23,7 @@ function QuestionScreen({navigation}) {
   return (
     <View style={styles.block}>
       <View style={styles.semiblock}>
-        <SearchBar />
+        <SearchBar classification={classification} />
       </View>
 
       <ScrollView>
@@ -45,7 +38,7 @@ function QuestionScreen({navigation}) {
                   date={question.time}
                   title={question.title}
                   body={question.text}
-                  id={question.id}
+                  id={question._id}
                   token={question.token}
                   nickname={question.nickname}
                 />

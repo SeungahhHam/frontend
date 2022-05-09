@@ -14,13 +14,24 @@ import FreeList from './FreeListItem';
 import {BASE_URL} from '../../config';
 import {useIsFocused} from '@react-navigation/native';
 
-function FreeSearchScreen({navigation}) {
+function FreeSearchScreen({route}) {
   const [lists, setLists] = useState([]);
   const [loading, setLoading] = useState(true);
   const isFocused = useIsFocused();
+  const routing = route.params.classify;
+
+  var dataToSend = {
+    search: route.params.id,
+  };
 
   useEffect(() => {
-    fetch(`${BASE_URL}/api/community/`) //검색해서 해당 내용만 출력
+    fetch(`${BASE_URL}/api/community/${routing}/search`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(dataToSend),
+    })
       .then(response => response.json())
       .then(json => setLists(json))
       .catch(error => console.error(error))
@@ -45,13 +56,14 @@ function FreeSearchScreen({navigation}) {
                   date={free.time}
                   title={free.title}
                   body={free.text}
-                  id={free.id}
+                  id={free._id}
+                  token={free.token}
+                  nickname={free.nickname}
                 />
               ))
           )}
         </View>
       </ScrollView>
-      <FloatingWriteButton />
     </View>
   );
 }

@@ -1,20 +1,15 @@
 import React, {useState} from 'react';
-import {
-  Pressable,
-  StyleSheet,
-  Text,
-  Alert,
-  View,
-  Button,
-  TextInput,
-  Image,
-} from 'react-native';
+import {Pressable, StyleSheet, Text, Alert, View, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import TransparentCircleButton from '../../components/TransparentCircleButton';
 import {BASE_URL} from '../../config';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import Moidfy_DeleteModeModal from '../../components/Modify_DeleteModeModal';
+import Comment from '../../components/Comment/Comment';
+import CommentScreen from '../../components/Comment/CommentScreen';
 
 function RecruitDetailScreen({route}) {
+  const [modalVisible, setModalVisible] = useState(false);
+
   const log1 = route.params?.title;
   const log2 = route.params?.body;
   const log3 = route.params?.date;
@@ -26,12 +21,13 @@ function RecruitDetailScreen({route}) {
   const [detailDate, setDetailDate] = useState(log3);
   const [detailId, setDetailId] = useState(log4);
   const [detailName, setDetailName] = useState(log5);
+  const board = 'recruit';
 
   const onOpenProfile = () => {};
 
   const navigation = useNavigation();
   var dataToSend = {
-    id: detailId,
+    _id: detailId,
   };
   const onAskDelete = () => {
     Alert.alert(
@@ -70,31 +66,55 @@ function RecruitDetailScreen({route}) {
     );
   };
   return (
-    <View style={styles.block}>
-      <View style={[styles.head, styles.paddingBlock]}>
-        <Pressable style={styles.profile} onPress={onOpenProfile}>
-          <Image
-            source={require('../../Assets/images/user.png')}
-            style={styles.avator}
-          />
-          <View>
-            <Text style={styles.displayName}>{detailName}</Text>
-            <Text style={styles.date}>
-              {new Date(detailDate).toLocaleString()}
-            </Text>
-          </View>
-        </Pressable>
-        <TransparentCircleButton
-          style={styles.buttonlist}
-          onPress={onAskDelete}
-          name="list"
-        />
+    <>
+      <View style={styles.block}>
+        <View style={[styles.head, styles.paddingBlock]}>
+          <Pressable style={styles.profile} onPress={onOpenProfile}>
+            <Image
+              source={require('../../Assets/images/user.png')}
+              style={styles.avator}
+            />
+            <View>
+              <Text style={styles.displayName}>{detailName}</Text>
+              <Text style={styles.date}>
+                {new Date(detailDate).toLocaleString()}
+              </Text>
+            </View>
+          </Pressable>
+          <>
+            <View style={styles.iconButtonWrapper}>
+              <Pressable
+                style={({pressed}) => [
+                  styles.iconButton,
+                  Platform.OS === 'ios' &&
+                    pressed && {
+                      backgroundColor: '#efefef',
+                    },
+                ]}
+                onPress={() => setModalVisible(true)}
+                android_ripple={{color: '#ededed'}}>
+                <Icon name="list" size={24} color="grey" />
+              </Pressable>
+            </View>
+            <Moidfy_DeleteModeModal
+              visible={modalVisible}
+              onClose={() => setModalVisible(false)}
+              onAskDelete={onAskDelete}
+              modifyTitle={detailTitle}
+              modifyBody={detailBody}
+              modifyId={detailId}
+              board={board}
+            />
+          </>
+        </View>
+        <View style={styles.paddingBlock}>
+          <Text style={styles.displayTitle}>{detailTitle}</Text>
+          <Text style={styles.description}>{detailBody}</Text>
+        </View>
       </View>
-      <View style={styles.paddingBlock}>
-        <Text style={styles.displayTitle}>{detailTitle}</Text>
-        <Text style={styles.description}>{detailBody}</Text>
-      </View>
-    </View>
+      <Comment detailId={detailId} board={board} />
+      <CommentScreen detailId={detailId} board={board} />
+    </>
   );
 }
 
@@ -145,6 +165,19 @@ const styles = StyleSheet.create({
     color: '#757575',
     fontSize: 12,
     marginLeft: 10,
+  },
+  iconButtonWrapper: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    overflow: 'hidden',
+  },
+  iconButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 32,
+    height: 32,
+    borderRadius: 16,
   },
 });
 

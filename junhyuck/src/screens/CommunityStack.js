@@ -11,6 +11,7 @@ import CertificationWrite from './Certification/CertificationWriteScreen';
 import RecruitDetail from './Recruit/RecruitDetailScreen';
 import RecruitWrite from './Recruit/RecruitWriteScreen';
 import FreeSearchScreen from './Free/FreeSearchScreen';
+import Modify from './ModifyScreen';
 const Stack = createNativeStackNavigator();
 
 function CommunityStack() {
@@ -66,6 +67,11 @@ function CommunityStack() {
       <Stack.Screen
         name="FreeSearch"
         component={FreeSearchScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Modify"
+        component={Modify}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

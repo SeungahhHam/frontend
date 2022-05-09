@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import {Text, View, Button} from 'react-native';
 import SelectBox from 'react-native-multi-selectbox';
 import {xorBy} from 'lodash';
+import {useNavigation} from '@react-navigation/native';
+import {BASE_URL} from '../config';
 
 // Options data must contain 'item' & 'id' keys
 
@@ -48,15 +50,21 @@ const K_OPTIONS = [
   },
 ];
 
-function KeywordScreen({navigation}) {
+function KeywordScreen({route}) {
+  const navigation = useNavigation();
   const [selectedTeams, setSelectedTeams] = useState([]);
   const keywordButton = () => {
     var dataToSend = {
       item: selectedTeams.map(row => row.item),
+      name: route.params.name,
+      nickname: route.params.nickname,
+      email: route.params.email,
+      password: route.params.password,
+      userImage: route.params.userImage,
     };
     console.log(dataToSend);
     navigation.navigate('Login');
-    /*   fetch(`${BASE_URL}/api/user/register`, {
+    fetch(`${BASE_URL}/api/user/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -67,15 +75,14 @@ function KeywordScreen({navigation}) {
         const jsonRes = await res.json();
         console.log(jsonRes);
         if (jsonRes.success === true) {
-          navigation.navigate('Keyword');
+          navigation.navigate('Login');
         } else {
           console.log('이미 가입된 이메일이 있습니다');
-          setErrortext('이미 가입된 이메일이 있습니다');
         }
       } catch (err) {
         console.log(err);
       }
-    }); */
+    });
   };
   return (
     <View style={{margin: 30}}>
@@ -87,6 +94,7 @@ function KeywordScreen({navigation}) {
       <Text style={{fontSize: 20, paddingBottom: 10}}>
         당신의 등산 취향을 골라보세요
       </Text>
+      <Text></Text>
       <SelectBox
         label="Select multiple"
         options={K_OPTIONS}

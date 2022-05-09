@@ -5,16 +5,20 @@ import {
   Text,
   Alert,
   View,
-  Button,
-  TextInput,
   Image,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import TransparentCircleButton from '../../components/TransparentCircleButton';
-import {BASE_URL} from '../../config';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {BASE_URL} from '../../config';
+import Moidfy_DeleteModeModal from '../../components/Modify_DeleteModeModal';
+import Comment from '../../components/Comment/Comment';
+import CommentScreen from '../../components/Comment/CommentScreen';
+import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 
 function CertificationDetailScreen({route}) {
+  const [modalVisible, setModalVisible] = useState(false);
+
   const log1 = route.params?.title;
   const log2 = route.params?.body;
   const log3 = route.params?.date;
@@ -26,12 +30,13 @@ function CertificationDetailScreen({route}) {
   const [detailDate, setDetailDate] = useState(log3);
   const [detailId, setDetailId] = useState(log4);
   const [detailName, setDetailName] = useState(log5);
+  const board = 'certify';
 
   const onOpenProfile = () => {};
 
   const navigation = useNavigation();
   var dataToSend = {
-    id: detailId,
+    _id: detailId,
   };
   const onAskDelete = () => {
     Alert.alert(
@@ -70,41 +75,69 @@ function CertificationDetailScreen({route}) {
     );
   };
   return (
-    <View style={styles.block}>
-      <View style={[styles.head, styles.paddingBlock]}>
-        <Pressable style={styles.profile} onPress={onOpenProfile}>
+    <SafeAreaProvider>
+      <View style={styles.block}>
+        <View style={[styles.head, styles.paddingBlock]}>
+          <Pressable style={styles.profile} onPress={onOpenProfile}>
+            <Image
+              source={require('../../Assets/images/user.png')}
+              style={styles.avator}
+            />
+            <View>
+              <Text style={styles.displayName}>{detailName}</Text>
+              <Text style={styles.date}>
+                {new Date(detailDate).toLocaleString()}
+              </Text>
+            </View>
+          </Pressable>
+          <>
+            <View style={styles.iconButtonWrapper}>
+              <Pressable
+                style={({pressed}) => [
+                  styles.iconButton,
+                  Platform.OS === 'ios' &&
+                    pressed && {
+                      backgroundColor: '#efefef',
+                    },
+                ]}
+                onPress={() => setModalVisible(true)}
+                android_ripple={{color: '#ededed'}}>
+                <Icon name="list" size={24} color="grey" />
+              </Pressable>
+            </View>
+            <Moidfy_DeleteModeModal
+              visible={modalVisible}
+              onClose={() => setModalVisible(false)}
+              onAskDelete={onAskDelete}
+              modifyTitle={detailTitle}
+              modifyBody={detailBody}
+              modifyId={detailId}
+              board={board}
+            />
+          </>
+        </View>
+        <View style={styles.paddingBlock}>
+          <Text style={styles.displayTitle}>{detailTitle}</Text>
           <Image
-            source={require('../../Assets/images/user.png')}
-            style={styles.avator}
+            source={require('../../Assets/images/mountain1.jpeg')}
+            style={styles.image}
+            resizeMethod="resize"
+            resizeMode="cover"
           />
-          <View>
-            <Text style={styles.displayName}>{detailName}</Text>
-            <Text style={styles.date}>
-              {new Date(detailDate).toLocaleString()}
-            </Text>
-          </View>
-        </Pressable>
-        <TransparentCircleButton
-          style={styles.buttonlist}
-          onPress={onAskDelete}
-          name="list"
-        />
+          <Text style={styles.description}>{detailBody}</Text>
+        </View>
       </View>
-      <View style={styles.paddingBlock}>
-        <Text style={styles.displayTitle}>{detailTitle}</Text>
-        <Image
-          source={require('../../Assets/images/mountain1.jpeg')}
-          style={styles.image}
-          resizeMethod="resize"
-          resizeMode="cover"
-        />
-        <Text style={styles.description}>{detailBody}</Text>
-      </View>
-    </View>
+
+      <Comment detailId={detailId} board={board} />
+      <CommentScreen detailId={detailId} board={board} />
+    </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
+  rootContainer: {
+    flex: 1,
+  },
   block: {
     paddingTop: 16,
     paddingBottom: 16,
@@ -152,9 +185,22 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   date: {
-    color: '757575',
+    color: '#757575',
     fontSize: 12,
     marginLeft: 10,
+  },
+  iconButtonWrapper: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    overflow: 'hidden',
+  },
+  iconButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 32,
+    height: 32,
+    borderRadius: 16,
   },
 });
 
