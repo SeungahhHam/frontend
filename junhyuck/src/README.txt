@@ -32,4 +32,5 @@ yarn add react-native-image-picker	//이미지 처리 관련 라이브러리
 yarn add Styled-components
 yarn add react-native-webview
 yarn add react-native-geolocation-service
+///
 
