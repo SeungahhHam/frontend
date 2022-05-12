@@ -1,5 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, Text, ScrollView} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  ScrollView,
+  ActivityIndicator,
+} from 'react-native';
 import CertificationFloatingWriteButton from './CertificationFloatingWriteButton';
 import SearchBar from '../../components/SearchBar';
 import CertificationList from './CertificationListItem';
@@ -29,7 +35,12 @@ function CertificationScreen({navigation}) {
       <ScrollView>
         <View style={styles.item}>
           {loading ? (
-            <Text>Loading...</Text>
+            <ActivityIndicator
+              animating={loading}
+              color="#6990F7"
+              size="large"
+              style={styles.activityIndicator}
+            />
           ) : (
             lists
               .reverse()
@@ -41,6 +52,8 @@ function CertificationScreen({navigation}) {
                   id={certify._id}
                   token={certify.token}
                   nickname={certify.nickname}
+                  userImage={certify.userImage}
+                  boardImage={certify.imagepath}
                 />
               ))
           )}
@@ -87,6 +100,10 @@ const styles = StyleSheet.create({
     color: '#37474f',
     fontSize: 16,
     lineHeight: 21,
+  },
+  activityIndicator: {
+    alignItems: 'center',
+    height: 80,
   },
 });
 

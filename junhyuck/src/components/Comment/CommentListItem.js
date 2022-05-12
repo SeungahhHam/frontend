@@ -2,7 +2,7 @@ import React from 'react';
 import {Pressable, StyleSheet, Text, Platform, View, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
-function CommentListItem({date, body, id, token, nickname}) {
+function CommentListItem({date, body, id, token, nickname, userImage}) {
   const navigation = useNavigation();
 
   return (
@@ -10,7 +10,13 @@ function CommentListItem({date, body, id, token, nickname}) {
       <View style={[styles.head, styles.paddingBlock]}>
         <View style={styles.profile}>
           <Image
-            source={require('../../Assets/images/user.png')}
+            source={
+              userImage
+                ? {
+                    uri: userImage,
+                  }
+                : require('../../Assets/images/user.png')
+            }
             style={styles.avator}
           />
           <View>

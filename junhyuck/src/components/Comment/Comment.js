@@ -15,6 +15,7 @@ import {BASE_URL} from '../../config';
 function Comment({detailId, board}) {
   const [Text, setText] = useState('');
   const [userNickname, setUserNickname] = useState('');
+  const [userProfile, setUserProfile] = useState('');
   const Comment_Id = detailId;
 
   useEffect(() => {
@@ -23,6 +24,7 @@ function Comment({detailId, board}) {
         const userDatas = await AsyncStorage.getItem('userData'); //토큰과 아이디
         const saveduserDatas = JSON.parse(userDatas);
         setUserNickname(saveduserDatas.nickname);
+        setUserProfile(saveduserDatas.userImage);
       } catch (e) {}
     }
     load();
@@ -33,6 +35,7 @@ function Comment({detailId, board}) {
       nickname: userNickname,
       Text: Text,
       date: new Date().toISOString(),
+      commentImage: userProfile,
     };
     var dataToSend = {
       _id: detailId,

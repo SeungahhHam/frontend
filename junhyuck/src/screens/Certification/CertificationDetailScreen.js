@@ -24,12 +24,16 @@ function CertificationDetailScreen({route}) {
   const log3 = route.params?.date;
   const log4 = route.params?.id;
   const log5 = route.params?.nickname;
+  const log6 = route.params?.userImage;
+  const log7 = route.params?.boardImage;
 
   const [detailTitle, setDetailTitle] = useState(log1);
   const [detailBody, setDetailBody] = useState(log2);
   const [detailDate, setDetailDate] = useState(log3);
   const [detailId, setDetailId] = useState(log4);
   const [detailName, setDetailName] = useState(log5);
+  const [detailUserImage, setDetailUserImage] = useState(log6);
+  const [detailBoardImage, setDetailBoardImage] = useState(log7);
   const board = 'certify';
 
   const onOpenProfile = () => {};
@@ -80,7 +84,13 @@ function CertificationDetailScreen({route}) {
         <View style={[styles.head, styles.paddingBlock]}>
           <Pressable style={styles.profile} onPress={onOpenProfile}>
             <Image
-              source={require('../../Assets/images/user.png')}
+              source={
+                detailUserImage
+                  ? {
+                      uri: detailUserImage,
+                    }
+                  : require('../../Assets/images/user.png')
+              }
               style={styles.avator}
             />
             <View>
@@ -119,7 +129,13 @@ function CertificationDetailScreen({route}) {
         <View style={styles.paddingBlock}>
           <Text style={styles.displayTitle}>{detailTitle}</Text>
           <Image
-            source={require('../../Assets/images/mountain1.jpeg')}
+            source={
+              detailBoardImage
+                ? {
+                    uri: detailBoardImage,
+                  }
+                : require('../../Assets/images/mountain1.jpeg')
+            }
             style={styles.image}
             resizeMethod="resize"
             resizeMode="cover"
@@ -182,6 +198,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
+    aspectRatio: 1.5,
     marginBottom: 16,
   },
   date: {

@@ -1,11 +1,22 @@
 import React, {useRef, useState} from 'react';
 import {View, StyleSheet, TextInput, Pressable, Text} from 'react-native';
 import ImageUploadButton from '../../components/ImageUploadButton';
-import UploadModeModal from '../../components/UploadModeModal';
 
-function CertificationWriteEditor({title, body, onChangeTitle, onChangeBody}) {
+function CertificationWriteEditor({
+  title,
+  body,
+  onChangeTitle,
+  onChangeBody,
+  image,
+  getImage,
+}) {
   const bodyRef = useRef();
-  const [modalVisible, setModalVisible] = useState(false);
+  const [imageUrl, setImageUrl] = useState('');
+  const getImageUrl = imageUrl => {
+    setImageUrl(imageUrl);
+  };
+
+  getImage(imageUrl);
 
   return (
     <View style={styles.block}>
@@ -20,7 +31,7 @@ function CertificationWriteEditor({title, body, onChangeTitle, onChangeBody}) {
         }}
       />
 
-      <ImageUploadButton />
+      <ImageUploadButton getImageUrl={getImageUrl} />
       <TextInput
         placeholder="당신의 인증을 기록해보세요"
         style={styles.bodyInput}

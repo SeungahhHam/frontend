@@ -42,13 +42,13 @@ function ModifyScreen({route}) {
       text: body,
       time: new Date().toISOString(),
       _id: route.params.id,
-      token: userToken,
       nickname: userNickname,
+      token: userToken,
     };
 
     console.log(dataToSend);
 
-    fetch(`${BASE_URL}/api/community/${route.params.routing}/init`, {
+    fetch(`${BASE_URL}/api/community/${route.params.routing}/update`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ function ModifyScreen({route}) {
       try {
         const jsonRes = await res.json();
         console.log(jsonRes);
-        navigation.pop();
+        navigation.navigate(route.params.routing);
       } catch (err) {
         console.log('fail');
         console.log(err);
