@@ -11,6 +11,9 @@ import TransparentCircleButton from '../components/TransparentCircleButton';
 import {StyleSheet, View, Text, Button, Alert} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useNavigation} from '@react-navigation/native';
+import ListPage from './ListScreen';
+import DetailPage from './DetailScreen';
+import MapPage from './MapScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -73,6 +76,9 @@ function RootStack() {
         component={Auth}
         options={{headerShown: false}}
       />
+      <Stack.Screen name="ListPage" component={ListPage} />
+      <Stack.Screen name="DetailPage" component={DetailPage} />
+      <Stack.Screen name="Map" component={MapPage} />
 
       <Stack.Screen
         name="UserInfo"

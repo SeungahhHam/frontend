@@ -3,7 +3,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import FeedScreen from './FeedsScreen';
 import CommunityStack from './CommunityStack';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Linking} from 'react-native';
 import TransparentCircleButton from '../components/TransparentCircleButton';
 import {useNavigation} from '@react-navigation/native';
 import CameraButton from '../components/CameraButton';
@@ -18,6 +18,11 @@ function MainTab() {
   };
   const onGoLogin = () => {
     navigation.navigate('Auth');
+  };
+  const onGoHelp = () => {
+    {
+      Linking.openURL('tel:01023039598');
+    }
   };
 
   return (
@@ -37,7 +42,7 @@ function MainTab() {
                   <TransparentCircleButton
                     name="warning"
                     color="red"
-                    onPress={onGoLogin}
+                    onPress={onGoHelp}
                   />
                 </View>
               ),

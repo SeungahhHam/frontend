@@ -1,10 +1,10 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {Pressable, StyleSheet, View} from 'react-native';
+import {Pressable, StyleSheet, View, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import TransparentCircleButton from './TransparentCircleButton';
 
-function WriteHeader({onSave}) {
+function WriteHeader({onSave, board}) {
   const navigation = useNavigation();
   const onGoBack = () => {
     navigation.pop();
@@ -25,6 +25,9 @@ function WriteHeader({onSave}) {
           onPress={onSave}
         />
       </View>
+      <View style={styles.center}>
+        <Text style={styles.text}>{board}</Text>
+      </View>
     </View>
   );
 }
@@ -40,6 +43,21 @@ const styles = StyleSheet.create({
   buttons: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  center: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: -1,
+    flexDirection: 'row',
+  },
+  text: {
+    fontSize: 15,
+    fontWeight: 'bold',
   },
 });
 

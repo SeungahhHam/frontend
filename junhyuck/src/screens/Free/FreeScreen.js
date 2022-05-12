@@ -1,5 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, Text, ScrollView} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  ScrollView,
+  ActivityIndicator,
+} from 'react-native';
 import FloatingWriteButton from './FloatingWriteButton';
 import SearchBar from '../../components/SearchBar';
 import FreeList from './FreeListItem';
@@ -29,7 +35,12 @@ function FreeScreen({navigation}) {
       <ScrollView>
         <View style={styles.item}>
           {loading ? (
-            <Text>Loading...</Text>
+            <ActivityIndicator
+              animating={loading}
+              color="#6990F7"
+              size="large"
+              style={styles.activityIndicator}
+            />
           ) : (
             lists
               .reverse()
@@ -41,7 +52,7 @@ function FreeScreen({navigation}) {
                   id={free._id}
                   token={free.token}
                   nickname={free.nickname}
-                  userImage={free.imagepath}
+                  userImage={free.userImage}
                 />
               ))
           )}
@@ -86,6 +97,10 @@ const styles = StyleSheet.create({
     color: '#37474f',
     fontSize: 16,
     lineHeight: 21,
+  },
+  activityIndicator: {
+    alignItems: 'center',
+    height: 80,
   },
 });
 

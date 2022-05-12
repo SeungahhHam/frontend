@@ -55,6 +55,7 @@ function FreeDetailScreen({route}) {
                 console.log('delete free');
                 navigation.pop();
               } catch (err) {
+                navigation.pop();
                 console.log(err);
               }
             });

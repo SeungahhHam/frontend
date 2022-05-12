@@ -15,12 +15,14 @@ function QuestionDetailScreen({route}) {
   const log3 = route.params?.date;
   const log4 = route.params?.id;
   const log5 = route.params?.nickname;
+  const log6 = route.params?.userImage;
 
   const [detailTitle, setDetailTitle] = useState(log1);
   const [detailBody, setDetailBody] = useState(log2);
   const [detailDate, setDetailDate] = useState(log3);
   const [detailId, setDetailId] = useState(log4);
   const [detailName, setDetailName] = useState(log5);
+  const [detailUserImage, setDetailUserImage] = useState(log6);
   const board = 'question';
 
   const onOpenProfile = () => {};
@@ -54,6 +56,7 @@ function QuestionDetailScreen({route}) {
                 navigation.pop();
               } catch (err) {
                 console.log(err);
+                navigation.pop();
               }
             });
           },
@@ -72,7 +75,13 @@ function QuestionDetailScreen({route}) {
         <View style={[styles.head, styles.paddingBlock]}>
           <Pressable style={styles.profile} onPress={onOpenProfile}>
             <Image
-              source={require('../../Assets/images/user.png')}
+              source={
+                detailUserImage
+                  ? {
+                      uri: detailUserImage,
+                    }
+                  : require('../../Assets/images/user.png')
+              }
               style={styles.avator}
             />
             <View>

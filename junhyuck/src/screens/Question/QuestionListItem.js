@@ -26,7 +26,7 @@ function truncate(text) {
   return replaced.slice(0, 100).concat('...');
 }
 
-function QuestionListItem({title, date, body, id, token, nickname}) {
+function QuestionListItem({title, date, body, id, token, nickname, userImage}) {
   const navigation = useNavigation();
   const onPress = () => {
     navigation.navigate('QuestionDetail', {
@@ -36,6 +36,7 @@ function QuestionListItem({title, date, body, id, token, nickname}) {
       id,
       token,
       nickname,
+      userImage,
     });
   };
 
@@ -51,7 +52,13 @@ function QuestionListItem({title, date, body, id, token, nickname}) {
         <View style={[styles.head, styles.paddingBlock]}>
           <Pressable style={styles.profile}>
             <Image
-              source={require('../../Assets/images/user.png')}
+              source={
+                userImage
+                  ? {
+                      uri: userImage,
+                    }
+                  : require('../../Assets/images/user.png')
+              }
               style={styles.avator}
             />
             <View>

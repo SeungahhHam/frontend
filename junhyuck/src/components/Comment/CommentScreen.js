@@ -36,11 +36,12 @@ function CommentScreen({detailId, board}) {
         ) : (
           lists
             .reverse()
-            .map(free => (
+            .map(comment => (
               <CommentList
-                date={free.date}
-                body={free.Text}
-                nickname={free.nickname}
+                date={comment.date}
+                body={comment.Text}
+                nickname={comment.nickname}
+                userImage={comment.commentImage}
               />
             ))
         )}

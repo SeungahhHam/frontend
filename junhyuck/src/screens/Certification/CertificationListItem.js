@@ -27,7 +27,16 @@ function truncate(text) {
   return replaced.slice(0, 100).concat('...');
 }
 
-function CertificationListItem({title, date, body, id, token, nickname}) {
+function CertificationListItem({
+  title,
+  date,
+  body,
+  id,
+  token,
+  nickname,
+  userImage,
+  boardImage,
+}) {
   const navigation = useNavigation();
   const onPress = () => {
     navigation.navigate('CertificationDetail', {
@@ -37,6 +46,8 @@ function CertificationListItem({title, date, body, id, token, nickname}) {
       id,
       token,
       nickname,
+      userImage,
+      boardImage,
     });
   };
 
@@ -52,7 +63,13 @@ function CertificationListItem({title, date, body, id, token, nickname}) {
         <View style={[styles.head, styles.paddingBlock]}>
           <Pressable style={styles.profile}>
             <Image
-              source={require('../../Assets/images/user.png')}
+              source={
+                userImage
+                  ? {
+                      uri: userImage,
+                    }
+                  : require('../../Assets/images/user.png')
+              }
               style={styles.avator}
             />
             <View>
@@ -62,14 +79,19 @@ function CertificationListItem({title, date, body, id, token, nickname}) {
           </Pressable>
         </View>
         <Image
-          source={require('../../Assets/images/mountain1.jpeg')}
+          source={
+            boardImage
+              ? {
+                  uri: boardImage,
+                }
+              : require('../../Assets/images/mountain1.jpeg')
+          }
           style={styles.image}
           resizeMethod="resize"
           resizeMode="cover"
         />
         <View style={styles.paddingBlock2}>
           <Text style={styles.displayTitle}>{title}</Text>
-          <Text style={styles.description}>{truncate(body)}</Text>
           <Text style={styles.id}>{id}</Text>
         </View>
       </View>
@@ -94,8 +116,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   paddingBlock2: {
-    paddingHorizontal: 16,
-    paddingVertical: 5,
+    paddingHorizontal: 8,
+    paddingVertical: 10,
     backgroundColor: 'white',
   },
   head: {
@@ -121,9 +143,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   image: {
-    backgroundColor: 'white',
     width: '100%',
-    marginBottom: 16,
+    aspectRatio: 1.5,
   },
   description: {
     fontSize: 16,

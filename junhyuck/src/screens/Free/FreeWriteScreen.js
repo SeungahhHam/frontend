@@ -13,13 +13,14 @@ function FreeWriteScreen() {
   const [body, setBody] = useState('');
   const [userToken, setUserToken] = useState('');
   const [userNickname, setUserNickname] = useState('');
-  const [userProfile, setUserProfile] = useState('');
+  const [userProfile, setUserProfile] = useState(''); //프로필사진
   const navigation = useNavigation();
+  const board = '자유게시판';
 
   useEffect(() => {
     async function load() {
       try {
-        const userDatas = await AsyncStorage.getItem('userData'); //토큰과 아이디
+        const userDatas = await AsyncStorage.getItem('userData'); //로그인할 때 저장된 정보들 불러오기
         const saveduserDatas = JSON.parse(userDatas);
         setUserToken(saveduserDatas.token);
         setUserNickname(saveduserDatas.nickname);
@@ -46,10 +47,8 @@ function FreeWriteScreen() {
       _id: uuidv4(),
       token: userToken,
       nickname: userNickname,
-      imagepath: userProfile,
+      userImage: userProfile,
     };
-
-    console.log(dataToSend);
 
     fetch(`${BASE_URL}/api/community/free/init`, {
       method: 'POST',
@@ -71,7 +70,7 @@ function FreeWriteScreen() {
 
   return (
     <SafeAreaView style={styles.block}>
-      <WriteHeader onSave={onSave} />
+      <WriteHeader onSave={onSave} board={board} />
       <WriteEditor
         title={title}
         body={body}

@@ -13,7 +13,7 @@ function SearchScreen() {
   return (
     <Tab.Navigator initialRouteName="Free">
       <Tab.Screen
-        name="Free"
+        name="free"
         component={FreeScreen}
         options={{
           headerTitleAlign: 'center',
@@ -22,7 +22,7 @@ function SearchScreen() {
         }}
       />
       <Tab.Screen
-        name="Question"
+        name="question"
         component={QuestionScreen}
         options={{
           headerTitleAlign: 'center',
@@ -31,7 +31,7 @@ function SearchScreen() {
         }}
       />
       <Tab.Screen
-        name="Certification"
+        name="certify"
         component={CertificationScreen}
         options={{
           headerTitleAlign: 'center',
@@ -40,7 +40,7 @@ function SearchScreen() {
         }}
       />
       <Tab.Screen
-        name="Recruit"
+        name="recruit"
         component={RecruitScreen}
         options={{
           headerTitleAlign: 'center',

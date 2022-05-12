@@ -13,6 +13,8 @@ function RecruitWriteScreen() {
   const [body, setBody] = useState('');
   const [userToken, setUserToken] = useState('');
   const [userNickname, setUserNickname] = useState('');
+  const [userProfile, setUserProfile] = useState(''); //프로필사진
+  const board = '모집게시판';
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -22,6 +24,7 @@ function RecruitWriteScreen() {
         const saveduserDatas = JSON.parse(userDatas);
         setUserToken(saveduserDatas.token);
         setUserNickname(saveduserDatas.nickname);
+        setUserProfile(saveduserDatas.userImage);
       } catch (e) {}
     }
     load();
@@ -44,6 +47,7 @@ function RecruitWriteScreen() {
       _id: uuidv4(),
       token: userToken,
       nickname: userNickname,
+      userImage: userProfile,
     };
 
     console.log(dataToSend);
@@ -68,7 +72,7 @@ function RecruitWriteScreen() {
 
   return (
     <SafeAreaView style={styles.block}>
-      <WriteHeader onSave={onSave} />
+      <WriteHeader onSave={onSave} board={board} />
       <RecruitWriteEditor
         title={title}
         body={body}
