@@ -15,12 +15,14 @@ function RecruitDetailScreen({route}) {
   const log3 = route.params?.date;
   const log4 = route.params?.id;
   const log5 = route.params?.nickname;
+  const log6 = route.params?.userImage;
 
   const [detailTitle, setDetailTitle] = useState(log1);
   const [detailBody, setDetailBody] = useState(log2);
   const [detailDate, setDetailDate] = useState(log3);
   const [detailId, setDetailId] = useState(log4);
   const [detailName, setDetailName] = useState(log5);
+  const [detailUserImage, setDetailUserImage] = useState(log6);
   const board = 'recruit';
 
   const onOpenProfile = () => {};
@@ -39,7 +41,7 @@ function RecruitDetailScreen({route}) {
           text: '삭제',
           onPress: () => {
             console.log(dataToSend);
-            fetch(`${BASE_URL}/api/community/freedelete`, {
+            fetch(`${BASE_URL}/api/community/free/delete`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -71,7 +73,13 @@ function RecruitDetailScreen({route}) {
         <View style={[styles.head, styles.paddingBlock]}>
           <Pressable style={styles.profile} onPress={onOpenProfile}>
             <Image
-              source={require('../../Assets/images/user.png')}
+              source={
+                detailUserImage
+                  ? {
+                      uri: detailUserImage,
+                    }
+                  : require('../../Assets/images/user.png')
+              }
               style={styles.avator}
             />
             <View>

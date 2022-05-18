@@ -1,27 +1,12 @@
-import React, {useRef, useState} from 'react';
-import {View, StyleSheet, TextInput, Pressable, Text} from 'react-native';
-import ImageUploadButton from '../../components/ImageUploadButton';
+import React, {useRef} from 'react';
+import {View, StyleSheet, TextInput} from 'react-native';
 
-function CertificationWriteEditor({
-  title,
-  body,
-  onChangeTitle,
-  onChangeBody,
-  image,
-  getImage,
-}) {
+function WriteEditor({title, body, onChangeTitle, onChangeBody}) {
   const bodyRef = useRef();
-  const [imageUrl, setImageUrl] = useState('');
-  const getImageUrl = imageUrl => {
-    setImageUrl(imageUrl);
-  };
-
-  getImage(imageUrl);
-
   return (
     <View style={styles.block}>
       <TextInput
-        placeholder="산을 입력하세요"
+        placeholder={title}
         style={styles.titleInput}
         returnKeyType="next"
         onChangeText={onChangeTitle}
@@ -30,10 +15,8 @@ function CertificationWriteEditor({
           bodyRef.current.focus();
         }}
       />
-
-      <ImageUploadButton getImageUrl={getImageUrl} />
       <TextInput
-        placeholder="당신의 인증을 기록해보세요"
+        placeholder={body}
         style={styles.bodyInput}
         multiline
         textAlignVertical="top"
@@ -57,11 +40,6 @@ const styles = StyleSheet.create({
     color: '#263238',
     fontWeight: 'bold',
   },
-  imageInput: {
-    fontSize: 16,
-    marginBottom: 16,
-    textDecorationLine: 'underline',
-  },
   bodyInput: {
     flex: 1,
     fontSize: 16,
@@ -70,4 +48,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CertificationWriteEditor;
+export default WriteEditor;

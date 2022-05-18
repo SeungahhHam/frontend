@@ -13,7 +13,9 @@ function QuestionWriteScreen() {
   const [body, setBody] = useState('');
   const [userToken, setUserToken] = useState('');
   const [userNickname, setUserNickname] = useState('');
+  const [userProfile, setUserProfile] = useState(''); //프로필사진
   const navigation = useNavigation();
+  const board = '질문게시판';
 
   useEffect(() => {
     async function load() {
@@ -22,6 +24,7 @@ function QuestionWriteScreen() {
         const saveduserDatas = JSON.parse(userDatas);
         setUserToken(saveduserDatas.token);
         setUserNickname(saveduserDatas.nickname);
+        setUserProfile(saveduserDatas.userImage);
       } catch (e) {}
     }
     load();
@@ -44,9 +47,8 @@ function QuestionWriteScreen() {
       _id: uuidv4(),
       token: userToken,
       nickname: userNickname,
+      userImage: userProfile,
     };
-
-    console.log(dataToSend);
 
     fetch(`${BASE_URL}/api/community/question/init`, {
       method: 'POST',
@@ -58,7 +60,7 @@ function QuestionWriteScreen() {
       try {
         const jsonRes = await res.json();
         console.log(jsonRes);
-        console.log('yes');
+
         navigation.pop();
       } catch (err) {
         console.log(err);
@@ -68,7 +70,7 @@ function QuestionWriteScreen() {
 
   return (
     <SafeAreaView style={styles.block}>
-      <WriteHeader onSave={onSave} />
+      <WriteHeader onSave={onSave} board={board} />
       <QuestionWriteEditor
         title={title}
         body={body}

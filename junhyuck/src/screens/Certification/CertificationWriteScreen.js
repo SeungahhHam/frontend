@@ -13,7 +13,14 @@ function CertificationWriteScreen() {
   const [body, setBody] = useState('');
   const [userToken, setUserToken] = useState('');
   const [userNickname, setUserNickname] = useState('');
+  const [userProfile, setUserProfile] = useState(''); //프로필사진
+  const board = '인증게시판';
   const navigation = useNavigation();
+
+  const [image, setImage] = useState('');
+  const getImage = image => {
+    setImage(image);
+  };
 
   useEffect(() => {
     async function load() {
@@ -22,6 +29,7 @@ function CertificationWriteScreen() {
         const saveduserDatas = JSON.parse(userDatas);
         setUserToken(saveduserDatas.token);
         setUserNickname(saveduserDatas.nickname);
+        setUserProfile(saveduserDatas.userImage);
       } catch (e) {}
     }
     load();
@@ -44,8 +52,9 @@ function CertificationWriteScreen() {
       _id: uuidv4(),
       token: userToken,
       nickname: userNickname,
+      userImage: userProfile, //프로필 사진
+      imagepath: image,
     };
-
     console.log(dataToSend);
 
     fetch(`${BASE_URL}/api/community/certify/init`, {
@@ -58,7 +67,6 @@ function CertificationWriteScreen() {
       try {
         const jsonRes = await res.json();
         console.log(jsonRes);
-        console.log('yes');
         navigation.pop();
       } catch (err) {
         console.log(err);
@@ -68,12 +76,14 @@ function CertificationWriteScreen() {
 
   return (
     <SafeAreaView style={styles.block}>
-      <WriteHeader onSave={onSave} />
+      <WriteHeader onSave={onSave} board={board} />
+
       <CertificationWriteEditor
         title={title}
         body={body}
         onChangeTitle={setTitle}
         onChangeBody={setBody}
+        getImage={getImage}
       />
     </SafeAreaView>
   );

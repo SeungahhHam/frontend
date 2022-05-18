@@ -5,10 +5,12 @@ import {launchImageLibrary, launchCamera} from 'react-native-image-picker';
 
 const TABBAR_HEIGHT = 49;
 
-function ImageUploadButton() {
+function ImageUploadButton({getImageUrl}) {
   const [modalVisible, setModalVisible] = useState(false);
   const [response, setResPonse] = useState(null);
   const bottom = TABBAR_HEIGHT / 6;
+  const [boardimage, setBoardImage] = useState('');
+  getImageUrl(boardimage);
 
   const onLanchCamera = async () => {
     const image = {
@@ -31,7 +33,7 @@ function ImageUploadButton() {
           console.log('ImagePicker Error: ', res.errorCode);
         } else if (res.assets) {
           //정상적으로 사진을 반환 받았을 때
-          console.log('ImagePicker res', res);
+          console.log('ImagePicker res');
           setResPonse(res);
           image.name = res.assets[0].fileName;
           image.type = res.assets[0].type;
@@ -43,7 +45,7 @@ function ImageUploadButton() {
       },
     );
     const formdata = new FormData();
-    formdata.append('img', image);
+    formdata.append('b_img', image);
 
     const requestOptions = {
       method: 'POST',
@@ -53,9 +55,9 @@ function ImageUploadButton() {
       // headers를 위처럼 따로 지정해 주지 않아도 되긴 함
     };
 
-    await fetch('http://3.34.32.228:5000/api/image/uploadOne', requestOptions)
+    await fetch('http://3.34.32.228:5000/api/image/uploadBoard', requestOptions)
       .then(response => response.text())
-      .then(result => console.log(result))
+      .then(result => setBoardImage(result))
       .catch(error => console.log('error', error));
   };
 
@@ -91,7 +93,7 @@ function ImageUploadButton() {
       },
     );
     const formdata = new FormData();
-    formdata.append('img', image);
+    formdata.append('b_img', image);
 
     const requestOptions = {
       method: 'POST',
@@ -101,9 +103,9 @@ function ImageUploadButton() {
       // headers를 위처럼 따로 지정해 주지 않아도 되긴 함
     };
 
-    await fetch('http://3.34.32.228:5000/api/image/uploadOne', requestOptions)
+    await fetch('http://3.34.32.228:5000/api/image/uploadBoard', requestOptions)
       .then(response => response.text())
-      .then(result => console.log(result))
+      .then(result => setBoardImage(result))
       .catch(error => console.log('error', error));
   };
 

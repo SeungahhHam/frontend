@@ -2,11 +2,9 @@ import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   View,
-  Button,
   Text,
-  Pressable,
-  FlatList,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import RecruitFloatingWriteButton from './RecruitFloatingWriteButton';
 import SearchBar from '../../components/SearchBar';
@@ -37,7 +35,12 @@ function RecruitScreen({navigation}) {
       <ScrollView>
         <View style={styles.item}>
           {loading ? (
-            <Text>Loading...</Text>
+            <ActivityIndicator
+              animating={loading}
+              color="#6990F7"
+              size="large"
+              style={styles.activityIndicator}
+            />
           ) : (
             lists
               .reverse()
@@ -49,6 +52,7 @@ function RecruitScreen({navigation}) {
                   id={recruit._id}
                   token={recruit.token}
                   nickname={recruit.nickname}
+                  userImage={recruit.userImage}
                 />
               ))
           )}
@@ -93,6 +97,10 @@ const styles = StyleSheet.create({
     color: '#37474f',
     fontSize: 16,
     lineHeight: 21,
+  },
+  activityIndicator: {
+    alignItems: 'center',
+    height: 80,
   },
 });
 

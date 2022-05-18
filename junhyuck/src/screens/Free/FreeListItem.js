@@ -39,7 +39,6 @@ function FreeListItem({title, date, body, id, token, nickname, userImage}) {
       userImage,
     });
   };
-  console.log(userImage);
 
   return (
     <Pressable

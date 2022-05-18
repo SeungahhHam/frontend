@@ -1,20 +1,18 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, KeyboardAvoidingView, Platform} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import RecruitWriteEditor from './RecruitWriteEditor';
-import WriteHeader from '../../components/WriteHeader';
+import ModifyWriteEditor from './ModifyWriteEditor';
+import WriteHeader from '../components/WriteHeader';
 import {v4 as uuidv4} from 'uuid';
-import {BASE_URL} from '../../config';
+import {BASE_URL} from '../config';
 import AsyncStorage from '@react-native-community/async-storage';
 
-function RecruitWriteScreen() {
-  const [title, setTitle] = useState('');
-  const [body, setBody] = useState('');
+function ModifyScreen({route}) {
+  const [title, setTitle] = useState(route.params.title);
+  const [body, setBody] = useState(route.params.body);
   const [userToken, setUserToken] = useState('');
   const [userNickname, setUserNickname] = useState('');
-  const [userProfile, setUserProfile] = useState(''); //프로필사진
-  const board = '모집게시판';
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -24,7 +22,6 @@ function RecruitWriteScreen() {
         const saveduserDatas = JSON.parse(userDatas);
         setUserToken(saveduserDatas.token);
         setUserNickname(saveduserDatas.nickname);
-        setUserProfile(saveduserDatas.userImage);
       } catch (e) {}
     }
     load();
@@ -44,15 +41,14 @@ function RecruitWriteScreen() {
       title: title,
       text: body,
       time: new Date().toISOString(),
-      _id: uuidv4(),
-      token: userToken,
+      _id: route.params.id,
       nickname: userNickname,
-      userImage: userProfile,
+      token: userToken,
     };
 
     console.log(dataToSend);
 
-    fetch(`${BASE_URL}/api/community/recruit/init`, {
+    fetch(`${BASE_URL}/api/community/${route.params.routing}/update`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -62,9 +58,9 @@ function RecruitWriteScreen() {
       try {
         const jsonRes = await res.json();
         console.log(jsonRes);
-        console.log('yes');
-        navigation.pop();
+        navigation.navigate(route.params.routing);
       } catch (err) {
+        console.log('fail');
         console.log(err);
       }
     });
@@ -72,8 +68,8 @@ function RecruitWriteScreen() {
 
   return (
     <SafeAreaView style={styles.block}>
-      <WriteHeader onSave={onSave} board={board} />
-      <RecruitWriteEditor
+      <WriteHeader onSave={onSave} />
+      <ModifyWriteEditor
         title={title}
         body={body}
         onChangeTitle={setTitle}
@@ -90,4 +86,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RecruitWriteScreen;
+export default ModifyScreen;

@@ -1,5 +1,11 @@
 import React, {useContext, useState, useEffect} from 'react';
-import {StyleSheet, View, Text, ScrollView} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  ScrollView,
+  ActivityIndicator,
+} from 'react-native';
 import QuestionFloatingWriteButton from './QuestionFloatingWriteButton';
 import SearchBar from '../../components/SearchBar';
 import QuestionList from './QuestionListItem';
@@ -29,7 +35,12 @@ function QuestionScreen({navigation}) {
       <ScrollView>
         <View style={styles.item}>
           {loading ? (
-            <Text>Loading...</Text>
+            <ActivityIndicator
+              animating={loading}
+              color="#6990F7"
+              size="large"
+              style={styles.activityIndicator}
+            />
           ) : (
             lists
               .reverse()
@@ -41,6 +52,7 @@ function QuestionScreen({navigation}) {
                   id={question._id}
                   token={question.token}
                   nickname={question.nickname}
+                  userImage={question.userImage}
                 />
               ))
           )}
@@ -85,6 +97,10 @@ const styles = StyleSheet.create({
     color: '#37474f',
     fontSize: 16,
     lineHeight: 21,
+  },
+  activityIndicator: {
+    alignItems: 'center',
+    height: 80,
   },
 });
 
