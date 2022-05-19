@@ -7,7 +7,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import RecruitFloatingWriteButton from './RecruitFloatingWriteButton';
-import SearchBar from '../../components/SearchBar';
+import RecruitSearchBar from '../../components/RecruitSearchBar';
 import RecruitList from './RecruitListItem';
 import {BASE_URL} from '../../config';
 import {useIsFocused} from '@react-navigation/native';
@@ -29,7 +29,7 @@ function RecruitScreen({navigation}) {
   return (
     <View style={styles.block}>
       <View style={styles.semiblock}>
-        <SearchBar classification={classification} />
+        <RecruitSearchBar classification={classification} />
       </View>
 
       <ScrollView>
@@ -53,6 +53,9 @@ function RecruitScreen({navigation}) {
                   token={recruit.token}
                   nickname={recruit.nickname}
                   userImage={recruit.userImage}
+                  local={recruit.loc}
+                  gender={recruit.gender}
+                  people={recruit.num}
                 />
               ))
           )}

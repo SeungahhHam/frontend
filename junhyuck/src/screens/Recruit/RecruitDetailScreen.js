@@ -16,6 +16,9 @@ function RecruitDetailScreen({route}) {
   const log4 = route.params?.id;
   const log5 = route.params?.nickname;
   const log6 = route.params?.userImage;
+  const log7 = route.params?.local;
+  const log8 = route.params?.gender;
+  const log9 = route.params?.people;
 
   const [detailTitle, setDetailTitle] = useState(log1);
   const [detailBody, setDetailBody] = useState(log2);
@@ -23,6 +26,9 @@ function RecruitDetailScreen({route}) {
   const [detailId, setDetailId] = useState(log4);
   const [detailName, setDetailName] = useState(log5);
   const [detailUserImage, setDetailUserImage] = useState(log6);
+  const [detailLocal, setDetailLocal] = useState(log7);
+  const [detailGender, setDetailGender] = useState(log8);
+  const [detailPeople, setDetailPeople] = useState(log9);
   const board = 'recruit';
 
   const onOpenProfile = () => {};
@@ -41,7 +47,7 @@ function RecruitDetailScreen({route}) {
           text: '삭제',
           onPress: () => {
             console.log(dataToSend);
-            fetch(`${BASE_URL}/api/community/free/delete`, {
+            fetch(`${BASE_URL}/api/community/recruit/delete`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -117,6 +123,12 @@ function RecruitDetailScreen({route}) {
         </View>
         <View style={styles.paddingBlock}>
           <Text style={styles.displayTitle}>{detailTitle}</Text>
+
+          <Text style={styles.description}>
+            {detailLocal == null ? '' : <Text>[{detailLocal}]</Text>}
+            {detailGender == null ? '' : <Text>[{detailGender}]</Text>}
+            {detailPeople == null ? '' : <Text>[{detailPeople}]</Text>}
+          </Text>
           <Text style={styles.description}>{detailBody}</Text>
         </View>
       </View>

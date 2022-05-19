@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import FeedScreen from './FeedsScreen';
 import CommunityStack from './CommunityStack';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {View, StyleSheet, Linking} from 'react-native';
+import {View, StyleSheet, Linking, Image} from 'react-native';
 import TransparentCircleButton from '../components/TransparentCircleButton';
 import {useNavigation} from '@react-navigation/native';
 import CameraButton from '../components/CameraButton';
@@ -16,12 +16,9 @@ function MainTab() {
   const onGoUser = () => {
     navigation.navigate('UserInfo');
   };
-  const onGoLogin = () => {
-    navigation.navigate('Auth');
-  };
   const onGoHelp = () => {
     {
-      Linking.openURL('tel:01023039598');
+      navigation.navigate('HelpPage');
     }
   };
 
@@ -46,7 +43,12 @@ function MainTab() {
                   />
                 </View>
               ),
-              title: '로고!!!',
+              headerTitle: () => (
+                <Image
+                  source={require('../Assets/images/logo.jpg')}
+                  style={{width: 70, resizeMode: 'contain'}}
+                />
+              ),
               headerTitleAlign: 'center',
               headerRight: () => (
                 <View style={styles.buttons}>
@@ -72,7 +74,12 @@ function MainTab() {
                   <TransparentCircleButton name="warning" color="red" />
                 </View>
               ),
-              title: '로고',
+              headerTitle: () => (
+                <Image
+                  source={require('../Assets/images/logo.jpg')}
+                  style={{width: 70, resizeMode: 'contain'}}
+                />
+              ),
               headerTitleAlign: 'center',
               headerRight: () => (
                 <View style={styles.buttons}>

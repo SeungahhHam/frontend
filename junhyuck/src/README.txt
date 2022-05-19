@@ -32,5 +32,16 @@ yarn add react-native-image-picker	//이미지 처리 관련 라이브러리
 yarn add Styled-components
 yarn add react-native-webview
 yarn add react-native-geolocation-service
-///
+yarn add react-native-maps
+<권한설정>
+1.아래경로 들어가기
+android/app/src/main/AndroidMainfest.xml
+
+2. <uses-permission android:name="android.permission.INTERNET" /> 바로 밑에 추가
+---------------------------------------------------------------------------------------------
+ <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />		//사진 라이브러리 접근권한
+ <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />		//카메라 찍는거 접근권한
+ <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+ <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />		//위치정보 받기위한 권한들
+---------------------------------------------------------------------------------------------
 

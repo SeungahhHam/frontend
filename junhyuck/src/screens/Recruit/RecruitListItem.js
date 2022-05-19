@@ -1,5 +1,5 @@
 import React from 'react';
-import {Pressable, StyleSheet, Text, Platfor, View, Image} from 'react-native';
+import {Pressable, StyleSheet, Text, Platform, View, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {ko} from 'date-fns/locale';
 import {format, formatDistanceToNow} from 'date-fns';
@@ -26,7 +26,18 @@ function truncate(text) {
   return replaced.slice(0, 100).concat('...');
 }
 
-function RecruitListItem({title, date, body, id, token, nickname, userImage}) {
+function RecruitListItem({
+  title,
+  date,
+  body,
+  id,
+  token,
+  nickname,
+  userImage,
+  local,
+  gender,
+  people,
+}) {
   const navigation = useNavigation();
   const onPress = () => {
     navigation.navigate('RecruitDetail', {
@@ -37,6 +48,9 @@ function RecruitListItem({title, date, body, id, token, nickname, userImage}) {
       token,
       nickname,
       userImage,
+      local,
+      gender,
+      people,
     });
   };
 
@@ -70,6 +84,11 @@ function RecruitListItem({title, date, body, id, token, nickname, userImage}) {
 
         <View style={styles.paddingBlock2}>
           <Text style={styles.displayTitle}>{title}</Text>
+          <Text style={styles.keydescription}>
+            {local === '도' ? '' : <Text>[{local}]</Text>}
+            {gender === '자' ? '' : <Text>[{gender}]</Text>}
+            {people === '명' ? '' : <Text>[{people}]</Text>}
+          </Text>
           <Text style={styles.description}>{truncate(body)}</Text>
           <Text style={styles.id}>{id}</Text>
         </View>
@@ -124,7 +143,12 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 16,
     lineHeight: 24,
-    marginBottom: 16,
+    marginBottom: 10,
+  },
+  keydescription: {
+    fontWeight: '600',
+    fontSize: 16,
+    lineHeight: 24,
   },
   date: {
     color: '#757575',

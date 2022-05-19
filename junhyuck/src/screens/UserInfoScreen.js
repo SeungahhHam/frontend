@@ -1,8 +1,6 @@
-import React, {useState, useEffect} from 'react';
-import {} from 'react-native';
-
+import React from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-
+import {useIsFocused} from '@react-navigation/native';
 import UserHeader from './user/UserHeader';
 import ProgressBar from './user/ProgressBar';
 import Badge from './userTab/BadgeTab';
@@ -12,6 +10,12 @@ import Picture from './userTab/PictureTab';
 const MenuTab = createMaterialTopTabNavigator();
 
 function UserInfoScreen() {
+  const tabBarOptions = {
+    tabBarIndicatorStyle: 'green',
+    tabBarActiveTintColor: 'green',
+    tabBarInactiveTintColor: 'gray',
+  };
+
   return (
     <>
       {/* UserHeader: 프로필 사진, 닉네임, 자기소개 */}
@@ -23,7 +27,7 @@ function UserInfoScreen() {
                 Picture - 자신이 쓴 사진 후기 글을 볼 수 있는 부분
                 Writing - 자신이 커뮤니티에 쓴 글을 볼 수 있는 부분
             */}
-      <MenuTab.Navigator>
+      <MenuTab.Navigator screenOptions={tabBarOptions}>
         <MenuTab.Screen name="Badge" component={Badge} />
         <MenuTab.Screen name="Picture" component={Picture} />
         <MenuTab.Screen name="Writing" component={Writing} />

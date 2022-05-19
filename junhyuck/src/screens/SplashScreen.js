@@ -21,11 +21,11 @@ const SplashScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      {/* <Image
-        source={require('../src/viva-logo-with-txt.png')}
-        style={{width: wp(55), resizeMode: 'contain', margin: 30}}
-      /> */}
-      <Text>Logo</Text>
+      <Image
+        source={require('../Assets/images/logo.jpg')}
+        style={{width: 100, resizeMode: 'contain', margin: 30}}
+      />
+
       <ActivityIndicator
         animating={animating}
         color="#6990F7"

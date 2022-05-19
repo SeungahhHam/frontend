@@ -2,10 +2,24 @@ import React, {useRef, useState} from 'react';
 import {View, StyleSheet, TextInput} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 
-function RecruitWriteEditor({title, body, onChangeTitle, onChangeBody}) {
+function RecruitWriteEditor({
+  title,
+  body,
+  onChangeTitle,
+  onChangeBody,
+  onChangePeople,
+  onChangeSex,
+  onChangeLocal,
+}) {
   const bodyRef = useRef();
-  const [peopleValue, setpeopleValue] = useState(' ');
-  const [sexValue, setSexValue] = useState(' ');
+  const [peopleValue, setpeopleValue] = useState('명');
+  const [sexValue, setSexValue] = useState('자');
+  const [localValue, setLocalValue] = useState('도');
+
+  onChangePeople(peopleValue);
+  onChangeSex(sexValue);
+  onChangeLocal(localValue);
+
   return (
     <View style={styles.block}>
       <TextInput
@@ -20,24 +34,38 @@ function RecruitWriteEditor({title, body, onChangeTitle, onChangeBody}) {
       />
       <View style={styles.container}>
         <Picker
-          peopleValue={peopleValue}
-          style={{height: 50, width: 150}}
+          selectedValue={peopleValue}
+          style={{height: 50, width: 130}}
           onValueChange={(itemValue, itemIndex) => setpeopleValue(itemValue)}>
-          <Picker.Item label="인원" value=" " />
-          <Picker.Item label="1명" value="1" />
-          <Picker.Item label="2명" value="2" />
-          <Picker.Item label="3명" value="3" />
-          <Picker.Item label="4명" value="4" />
-          <Picker.Item label="5명" value="5" />
+          <Picker.Item label="인원" value="명 " />
+          <Picker.Item label="1명" value="1명" />
+          <Picker.Item label="2명" value="2명" />
+          <Picker.Item label="3명" value="3명" />
+          <Picker.Item label="4명" value="4명" />
+          <Picker.Item label="5명" value="5명" />
         </Picker>
         <Picker
-          psexValue={sexValue}
-          style={{height: 50, width: 150}}
+          selectedValue={sexValue}
+          style={{height: 50, width: 130}}
           onValueChange={(itemValue, itemIndex) => setSexValue(itemValue)}>
-          <Picker.Item label="성별" value=" " />
-          <Picker.Item label="남성" value="male" />
-          <Picker.Item label="여성" value="female" />
-          <Picker.Item label="상관없음" value="all" />
+          <Picker.Item label="성별" value=" 자" />
+          <Picker.Item label="남성" value="남자" />
+          <Picker.Item label="여성" value="여자" />
+        </Picker>
+        <Picker
+          selectedValue={localValue}
+          style={{height: 50, width: 130}}
+          onValueChange={(itemValue, itemIndex) => setLocalValue(itemValue)}>
+          <Picker.Item label="지역" value="도 " />
+          <Picker.Item label="경기도" value="경기도" />
+          <Picker.Item label="강원도" value="강원도" />
+          <Picker.Item label="충청북도" value="충청북도" />
+          <Picker.Item label="충청남도" value="충청남도" />
+          <Picker.Item label="경상북도" value="경상북도" />
+          <Picker.Item label="경상남도" value="경상남도" />
+          <Picker.Item label="전라북도" value="전라북도" />
+          <Picker.Item label="전라남도" value="전라남도" />
+          <Picker.Item label="제주도" value="제주도" />
         </Picker>
       </View>
       <TextInput

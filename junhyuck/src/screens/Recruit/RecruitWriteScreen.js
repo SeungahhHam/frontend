@@ -14,6 +14,9 @@ function RecruitWriteScreen() {
   const [userToken, setUserToken] = useState('');
   const [userNickname, setUserNickname] = useState('');
   const [userProfile, setUserProfile] = useState(''); //프로필사진
+  const [people, setPeople] = useState('');
+  const [sex, setSex] = useState('');
+  const [local, setLocal] = useState('');
   const board = '모집게시판';
   const navigation = useNavigation();
 
@@ -48,6 +51,9 @@ function RecruitWriteScreen() {
       token: userToken,
       nickname: userNickname,
       userImage: userProfile,
+      num: people,
+      gender: sex,
+      loc: local,
     };
 
     console.log(dataToSend);
@@ -78,6 +84,9 @@ function RecruitWriteScreen() {
         body={body}
         onChangeTitle={setTitle}
         onChangeBody={setBody}
+        onChangePeople={setPeople}
+        onChangeSex={setSex}
+        onChangeLocal={setLocal}
       />
     </SafeAreaView>
   );

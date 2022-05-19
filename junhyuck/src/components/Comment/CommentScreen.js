@@ -42,6 +42,8 @@ function CommentScreen({detailId, board}) {
                 body={comment.Text}
                 nickname={comment.nickname}
                 userImage={comment.commentImage}
+                id={detailId}
+                board={board}
               />
             ))
         )}

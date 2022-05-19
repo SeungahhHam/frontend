@@ -2,13 +2,11 @@ import React, {useState} from 'react';
 import {View, Pressable, StyleSheet, Platform} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import UploadModeModal from './UploadModeModal';
 
 const TABBAR_HEIGHT = 49;
 
 function CameraButton() {
-  const [modalVisible, setModalVisible] = useState(false);
-
+  const onPress = {};
   const bottom = TABBAR_HEIGHT / 6;
 
   return (
@@ -20,14 +18,10 @@ function CameraButton() {
             color: '#ffffff',
           }}
           style={styles.circle}
-          onPress={() => setModalVisible(true)}>
+          onPress={onPress}>
           <Icon name="camera-alt" color="white" size={24} />
         </Pressable>
       </View>
-      <UploadModeModal
-        visible={modalVisible}
-        onClose={() => setModalVisible(false)}
-      />
     </>
   );
 }
