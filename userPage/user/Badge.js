@@ -1,8 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {
   View, StyleSheet, 
   Text, Image,
-  ScrollView
 } from 'react-native';
 
 function Badge({name, image}) {
@@ -34,7 +33,7 @@ const styles = StyleSheet.create({
       marginLeft: 10,
       alignItems: 'center',
       width: 70,
-      backgroundColor: 'rgba(0, 100, 0, 0.7)',
+      backgroundColor: '#009688',
       borderRadius: 10,
     },
     btNameText: {
@@ -45,11 +44,11 @@ const styles = StyleSheet.create({
       textAlign: 'center',
     },
     badge: {
+      marginTop: 5,
       alignItems: 'center',
-      height: 100,
-      width: 100,
-      resizeMode: 'contain',
-      borderRadius: 100,
+      height: 90,
+      width: 90,
+      borderRadius: 50,
     },
 });
 

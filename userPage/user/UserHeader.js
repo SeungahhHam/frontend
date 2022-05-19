@@ -4,31 +4,13 @@ import {
   Text,
   StyleSheet,
   Image,
-  TouchableOpacity, Alert
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import {useIsFocused} from '@react-navigation/native';
+import AsyncStorage from '@react-native-community/async-storage';
 import {BASE_URL} from '../../config';
 
 function UserHeader() {
     //유저 정보 받아오기 위한 변수
     const [list, setLists] = useState([]);
-    const isFocused = useIsFocused();
-
-    //.then(json => setLists(json))
-    //.then(json => console.log(json))
-    // useEffect(() => {
-    //     fetch(`${BASE_URL}/api/user/auth`,{
-    //       method: 'POST',
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //       },
-    //       body: JSON.stringify({token: 'eyJhbGciOiJIUzI1NiJ9.NjI3OGU5OWJkMmFjNTRlNWUwMmQ0NmI3.M--TK0EY39EzVpnGjhyc1hLqLRCDCTi1DZqVruH3d-A' }),
-    //     })
-    //       .then(response => response.json())
-    //       .then(json => setLists(json))
-    //       .catch(error => console.error(error))
-    // },[isFocused] );
 
     useEffect(() => {    
         async function load() {
@@ -50,24 +32,23 @@ function UserHeader() {
           } catch (e) {}
         }
         load();
-      
     },[]);
 
     return(
         <View>
-            {/*유저가 선택한 키워드*/}
-            {/* <View style={styles.keyword}>
-                <Text>
-                    #{list.keyword[0]}
-                    #{list.keyword[1]}
-                </Text>
-            </View> */}
             <View style={styles.header}>
                 {/*프로필 이미지*/}
-                <Image
-                    source={{uri: list.userImage}}
-                    style={styles.profile}
-                />
+                {list.userImage === "" ? (
+                    <Image
+                        style={styles.profile}
+                        source={require('../../Assets/images/user.png')}
+                    /> ) : (
+                    <Image
+                        style={styles.profile}
+                        source={{uri: list.userImage}}
+                    />    
+                )}
+                
                 <View style={styles.profileTxtContainer}>
                     <View style={styles.profileText1}>
                         {/*닉네임*/}
