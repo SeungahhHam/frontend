@@ -1,9 +1,67 @@
 import React from 'react';
-import {Pressable, StyleSheet, Text, Platform, View, Image} from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  Platform,
+  View,
+  Image,
+  Alert,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import {BASE_URL} from '../../config';
 
-function CommentListItem({date, body, id, token, nickname, userImage}) {
+function CommentListItem({date, body, id, token, nickname, userImage, board}) {
   const navigation = useNavigation();
+
+  var Commentdata = {
+    nickname: nickname,
+    Text: body,
+    date: date,
+    commentImage: userImage,
+  };
+  var dataToSend = {
+    _id: id,
+    comment: Commentdata,
+  };
+
+  const onAskDelete = () => {
+    Alert.alert(
+      '삭제',
+      '정말로 삭제하시겠습니까?',
+      [
+        {text: '취소', style: 'cancle'},
+        {
+          text: '삭제',
+          onPress: () => {
+            console.log(dataToSend);
+            fetch(`${BASE_URL}/api/community/${board}/commentOut`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+
+              body: JSON.stringify(dataToSend),
+            }).then(async res => {
+              try {
+                const jsonRes = await res.json();
+                console.log(jsonRes);
+                console.log('delete free');
+                navigation.pop();
+              } catch (err) {
+                console.log(err);
+              }
+            });
+          },
+          style: 'destructive',
+        },
+      ],
+      {
+        cancelable: true,
+      },
+    );
+  };
 
   return (
     <View style={styles.block}>
@@ -22,6 +80,20 @@ function CommentListItem({date, body, id, token, nickname, userImage}) {
           <View>
             <Text style={styles.displayName}>{nickname}</Text>
           </View>
+        </View>
+        <View style={styles.iconButtonWrapper}>
+          <Pressable
+            style={({pressed}) => [
+              styles.iconButton,
+              Platform.OS === 'ios' &&
+                pressed && {
+                  backgroundColor: '#efefef',
+                },
+            ]}
+            onPress={onAskDelete}
+            android_ripple={{color: '#ededed'}}>
+            <Icon name="delete-forever" size={20} color="red" />
+          </Pressable>
         </View>
       </View>
 

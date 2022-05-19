@@ -1,16 +1,10 @@
-import React, {useContext, useState, useEffect} from 'react';
-import {
-  StyleSheet,
-  View,
-  Button,
-  Text,
-  Pressable,
-  FlatList,
-  ScrollView,
-} from 'react-native';
-import FloatingWriteButton from './FloatingWriteButton';
+import React, {useState, useEffect} from 'react';
+import {StyleSheet, View, Text, ScrollView} from 'react-native';
 import SearchBar from '../../components/SearchBar';
 import FreeList from './FreeListItem';
+import CertificationList from '../Certification/CertificationListItem';
+import RecruitList from '../Recruit/RecruitListItem';
+import QuestionList from '../Question/QuestionListItem';
 import {BASE_URL} from '../../config';
 import {useIsFocused} from '@react-navigation/native';
 
@@ -20,23 +14,48 @@ function FreeSearchScreen({route}) {
   const isFocused = useIsFocused();
   const routing = route.params.classify;
 
-  var dataToSend = {
-    search: route.params.id,
-  };
+  if (routing === 'recruit') {
+    var dataToSend = {
+      num: route.params.people,
+      gender: route.params.sex,
+      loc: route.params.local,
+    };
+  } else {
+    var dataToSend = {
+      search: route.params.id,
+    };
+  }
 
-  useEffect(() => {
-    fetch(`${BASE_URL}/api/community/${routing}/search`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(dataToSend),
-    })
-      .then(response => response.json())
-      .then(json => setLists(json))
-      .catch(error => console.error(error))
-      .finally(() => setLoading(false));
-  }, [isFocused]);
+  if (routing === 'recruit') {
+    useEffect(() => {
+      console.log(dataToSend);
+      fetch(`${BASE_URL}/api/community/${routing}/condition`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dataToSend),
+      })
+        .then(response => response.json())
+        .then(json => setLists(json))
+        .catch(error => console.error(error))
+        .finally(() => setLoading(false));
+    }, [isFocused]);
+  } else {
+    useEffect(() => {
+      fetch(`${BASE_URL}/api/community/${routing}/search`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dataToSend),
+      })
+        .then(response => response.json())
+        .then(json => setLists(json))
+        .catch(error => console.error(error))
+        .finally(() => setLoading(false));
+    }, [isFocused]);
+  }
 
   return (
     <View style={styles.block}>
@@ -48,6 +67,52 @@ function FreeSearchScreen({route}) {
         <View style={styles.item}>
           {loading ? (
             <Text>Loading...</Text>
+          ) : routing === 'certify' ? (
+            lists
+              .reverse()
+              .map(certify => (
+                <CertificationList
+                  date={certify.time}
+                  title={certify.title}
+                  body={certify.text}
+                  id={certify._id}
+                  token={certify.token}
+                  nickname={certify.nickname}
+                  userImage={certify.userImage}
+                  boardImage={certify.imagepath}
+                />
+              ))
+          ) : routing === 'recruit' ? (
+            lists
+              .reverse()
+              .map(recruit => (
+                <RecruitList
+                  date={recruit.time}
+                  title={recruit.title}
+                  body={recruit.text}
+                  id={recruit._id}
+                  token={recruit.token}
+                  nickname={recruit.nickname}
+                  userImage={recruit.userImage}
+                  local={recruit.loc}
+                  gender={recruit.gender}
+                  people={recruit.num}
+                />
+              ))
+          ) : routing === 'question' ? (
+            lists
+              .reverse()
+              .map(question => (
+                <QuestionList
+                  date={question.time}
+                  title={question.title}
+                  body={question.text}
+                  id={question._id}
+                  token={question.token}
+                  nickname={question.nickname}
+                  userImage={question.userImage}
+                />
+              ))
           ) : (
             lists
               .reverse()
@@ -59,6 +124,7 @@ function FreeSearchScreen({route}) {
                   id={free._id}
                   token={free.token}
                   nickname={free.nickname}
+                  userImage={free.userImage}
                 />
               ))
           )}

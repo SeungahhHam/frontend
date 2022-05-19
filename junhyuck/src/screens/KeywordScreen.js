@@ -55,7 +55,7 @@ function KeywordScreen({route}) {
   const [selectedTeams, setSelectedTeams] = useState([]);
   const keywordButton = () => {
     var dataToSend = {
-      item: selectedTeams.map(row => row.item),
+      keyword: selectedTeams.map(row => row.item),
       name: route.params.name,
       nickname: route.params.nickname,
       email: route.params.email,

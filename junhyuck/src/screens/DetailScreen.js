@@ -1,25 +1,10 @@
-import React, {useContext, useState, useEffect} from 'react';
-import {
-  FlatList,
-  Text,
-  View,
-  ScrollView,
-  StyleSheet,
-  Image,
-  TextInput,
-  Alert,
-  TouchableOpacity,
-} from 'react-native';
-import Styled from 'styled-components/native';
-import {StackNavigationProp} from '@react-navigation/stack';
+import React, {useState, useEffect} from 'react';
+import {Text, View, ScrollView} from 'react-native';
 import axios from 'axios';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import Swiper from 'react-native-swiper';
 import {useIsFocused} from '@react-navigation/native';
-
+import {BASE_URL} from '../config';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import {WebView} from 'react-native-webview';
-
-const Container = Styled.View``;
 
 const DetailScreen = ({route, navigation}) => {
   const {mntnnm, x, y, keyword, hndfmsmtnslctnrson} = route.params;
@@ -35,7 +20,6 @@ const DetailScreen = ({route, navigation}) => {
   console.log(y); //경도
   console.log(keyword); //받은값
   console.log(hndfmsmtnslctnrson); //받은값
-  console.log('Testing:' + params.keyword);
 
   //날씨 정보가져오기
   const [weatherList, setData] = useState('');
@@ -60,7 +44,7 @@ const DetailScreen = ({route, navigation}) => {
     }
 
     try {
-      const url = 'http://3.34.32.228:5000/api/mountInfo' + keyword;
+      const url = `${BASE_URL}/api/mounnfo` + keyword;
       console.log(url);
 
       const res = await axios.get(url, params);
@@ -78,16 +62,31 @@ const DetailScreen = ({route, navigation}) => {
   }, []);
 
   const isFocused = useIsFocused();
+  const [userToken, setUserToken] = useState(
+    'eyJhbGciOiJIUzI1NiJ9.NjI3MWZmODI0YzQ5ODA0NzRhODkxYjhm.nR6p6n_7Xu0hRTm4BaDtr6IRVg2dXXoKFmf20k04n1s',
+  );
 
   useEffect(() => {
-    fetch('http://3.34.32.228:5000/api/map/set', {
+    async function load() {
+      try {
+        const userDatas = await AsyncStorage.getItem('userData'); //토큰과 아이디
+        const saveduserDatas = JSON.parse(userDatas);
+        setUserToken(saveduserDatas.token);
+      } catch (e) {}
+    }
+    load();
+  }, []);
+
+  useEffect(() => {
+    console.log('');
+    console.log(userToken);
+    fetch(`${BASE_URL}/api/map/set`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        token:
-          'eyJhbGciOiJIUzI1NiJ9.NjI3MWZmODI0YzQ5ODA0NzRhODkxYjhm.nR6p6n_7Xu0hRTm4BaDtr6IRVg2dXXoKFmf20k04n1s',
+        token: userToken,
         x: x,
         y: y,
       }), //item.x, item.y
@@ -95,140 +94,112 @@ const DetailScreen = ({route, navigation}) => {
       .then(response => response.json())
       .catch(error => console.error(error))
       .finally(() => setLoading(false));
-  }, [isFocused]);
-
-  /*  useEffect(() => {
-    fetch(`http://3.34.32.228:5000/api/mountInfo/keyword`,{
-      method: 'POST',
-       headers: {
-         'Content-Type': 'application/json',
-       },
-       body: JSON.stringify({token: 'eyJhbGciOiJIUzI1NiJ9.NjI3MWZmODI0YzQ5ODA0NzRhODkxYjhm.nR6p6n_7Xu0hRTm4BaDtr6IRVg2dXXoKFmf20k04n1s',
-        keword: keyword }),  //item.x, item.y
-     })
-       .then(response => response.json())
-       .catch(error => console.error(error))
-       .finally(() => setLoading(false));
-},[isFocused] );
-
-useEffect(() => {
-  _callApi();
-}, []);*/
+  });
 
   return (
-    <Container style={{marginTop: 58}}>
-      <ScrollView
-        style={{
-          flexDirection: 'column',
-          height: '100%',
-          backgroundColor: '#ffffff',
-        }}>
-        <View style={{marginBottom: 20, paddingHorizontal: 15}}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            {/*  <View style={{width:50,height:50,flexShrink:0,marginRight:10,alignItems:'center',justifyContent:'center',overflow:'hidden'}}>
+    <ScrollView
+      style={{
+        flexDirection: 'column',
+        height: '100%',
+        backgroundColor: '#ffffff',
+      }}>
+      <View style={{marginBottom: 20, paddingHorizontal: 15}}>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          {/*  <View style={{width:50,height:50,flexShrink:0,marginRight:10,alignItems:'center',justifyContent:'center',overflow:'hidden'}}>
               <Text>이미지</Text>
             </View>
  */}
-            <View style={{}}>
-              <Text style={{fontSize: 25, fontWeight: 'bold', color: '#111'}}>
-                {mntnnm}
-              </Text>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  flexWrap: 'wrap',
-                  marginBottom: 20,
-                  paddingHorizontal: 15,
-                }}
-              />
-            </View>
-
-            <View style={{flexShrink: 0, marginLeft: 10, flexDirection: 'row'}}>
-              {/*  <Text style={{paddingHorizontal:10,fontSize:11,color:'#666',textAlign:'center'}}>빈구름{'\n'}이미지</Text> */}
-              <Text>날씨 : {weatherList}</Text>
-              <Text
-                style={{
-                  paddingHorizontal: 10,
-                  fontSize: 11,
-                  color: '#666',
-                  textAlign: 'center',
-                  borderLeftWidth: 1,
-                  borderColor: '#efefef',
-                }}>
-                꽉찬 구름{'\n'}이미지
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        <View style={{flexDirection: 'row'}}>
-          {keyword.map((key, index) => (
-            <Text
-              style={{
-                marginRight: 10,
-                fontSize: 13,
-                color: '#fff',
-                borderRadius: 15,
-                lineHeight: 30,
-                paddingHorizontal: 10,
-                backgroundColor: '#02dbb4',
-              }}>
-              {key}
+          <View style={{paddingHorizontal: 5, paddingTop: 15}}>
+            <Text style={{fontSize: 25, fontWeight: 'bold', color: '#009688'}}>
+              {mntnnm}
             </Text>
-          ))}
-        </View>
-
-        {/*  <FlatList
-              data={keywordList.slice(0, keywordList.length)}
-              keyExtractor={(item, index) => item + index}
-                horizontal={true}
-              renderItem={({ item, index }) => (
-        <View style={{flexDirection:'row',flexWrap:'wrap',marginBottom:20,paddingHorizontal:15}}>
-          <Text style={{marginRight:10,fontSize:13,color:"#fff",borderRadius:15,lineHeight:30,paddingHorizontal:10,backgroundColor:'#02dbb4'}}>{keyword[0]}</Text>
-        </View>
-          )} />   */}
-
-        {/*  <View style={{flexDirection:'row',flexWrap:'wrap',marginBottom:20,paddingHorizontal:15}}>
-          <Text style={{marginRight:10,fontSize:13,color:"#fff",borderRadius:15,lineHeight:30,paddingHorizontal:10,backgroundColor:'#02dbb4'}}>dd</Text>
-        </View>  */}
-
-        <View
-          style={{
-            flexDirection: 'column',
-            marginBottom: 20,
-            paddingHorizontal: 15,
-          }}>
-          {
-            <WebView
-              source={{
-                uri: 'http://3.34.32.228:5000/api/map/eyJhbGciOiJIUzI1NiJ9.NjI3MWZmODI0YzQ5ODA0NzRhODkxYjhm.nR6p6n_7Xu0hRTm4BaDtr6IRVg2dXXoKFmf20k04n1s',
-              }}
+            <View
               style={{
-                width: '100%',
-                height: 250,
-                backgroundColor: '#eee',
-                alignItems: 'center',
-                justifyContent: 'center',
-                textAlign: 'center',
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                marginBottom: 20,
+                paddingHorizontal: 15,
               }}
             />
-          }
+          </View>
+
+          <View style={{flexShrink: 0, marginLeft: 10, flexDirection: 'row'}}>
+            {/*  <Text style={{paddingHorizontal:10,fontSize:11,color:'#666',textAlign:'center'}}>빈구름{'\n'}이미지</Text> */}
+            <Text>날씨 : {weatherList}</Text>
+            {weatherList === 'Clouds' ? (
+              <Icon name={cloud} size={24} color={'black'} />
+            ) : (
+              <Text>맑음</Text>
+            )}
+          </View>
         </View>
-        <View
-          style={{
-            flexDirection: 'column',
-            marginBottom: 20,
-            paddingHorizontal: 15,
-          }}>
-          <Text style={{paddingHorizontal: 15, lineHeight: 30, fontSize: 15}}>
-            ● 상세설명
+      </View>
+
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingHorizontal: 15,
+          paddingBottom: 15,
+        }}>
+        {keyword.map((key, index) => (
+          <Text
+            style={{
+              marginRight: 10,
+              fontSize: 13,
+              color: '#fff',
+              borderRadius: 15,
+              lineHeight: 30,
+              paddingHorizontal: 10,
+              backgroundColor: '#02dbb4',
+            }}>
+            {key}
           </Text>
-          <Text>{hndfmsmtnslctnrson}</Text>
-          {/* <Text style={{paddingHorizontal:15,lineHeight:30,fontSize:15}}>● 교통</Text>
+        ))}
+      </View>
+
+      <View
+        style={{
+          flexDirection: 'column',
+          marginBottom: 20,
+          paddingHorizontal: 15,
+        }}>
+        {
+          <WebView
+            source={{
+              uri: `${BASE_URL}/api/map/${userToken}`,
+            }}
+            style={{
+              width: '100%',
+              height: 250,
+              backgroundColor: '#eee',
+              alignItems: 'center',
+              justifyContent: 'center',
+              textAlign: 'center',
+            }}
+          />
+        }
+      </View>
+      <View
+        style={{
+          flexDirection: 'column',
+          marginBottom: 20,
+          paddingHorizontal: 15,
+        }}>
+        <Text
+          style={{
+            paddingHorizontal: 5,
+            lineHeight: 30,
+            fontSize: 17,
+            color: '#009688',
+          }}>
+          ● 상세설명
+        </Text>
+        <Text>{hndfmsmtnslctnrson}</Text>
+        {/* <Text style={{paddingHorizontal:15,lineHeight:30,fontSize:15}}>● 교통</Text>
           <Text style={{paddingHorizontal:15,lineHeight:30,fontSize:15}}>● 교통</Text> */}
-        </View>
-      </ScrollView>
-    </Container>
+      </View>
+    </ScrollView>
   );
 };
 
