@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  View, StyleSheet, 
+  View, StyleSheet, Text, 
   ScrollView
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -36,23 +36,36 @@ function BadgeTab() {
 
   return (
     <View>
-      <ScrollView>
-        <View style={styles.btList}>
-          {
-            list.map(badge => (
-              <Badge
-                name={badge.mntnnm}
-                image={badge.mntnattchimageseq}
-              />
-            ))
-          }
-        </View>
-      </ScrollView>
+      {list.length === 0 ? (
+        <Text style={styles.text}>
+          획득한 뱃지가 없습니다
+        </Text> 
+        ) : (
+        <ScrollView>
+          <View style={styles.btList}>
+            {
+              list.map(badge => (
+                <Badge
+                  name={badge.mntnnm}
+                  image={badge.mntnattchimageseq}
+                />
+              ))
+            }
+          </View>
+        </ScrollView>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  text: {
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    marginTop: 200,
+    fontWeight: 'bold',
+    color: 'gray',
+  },
   btList: {
     flexDirection: 'row',
     flexWrap: 'wrap',
