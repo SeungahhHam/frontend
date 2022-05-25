@@ -1,7 +1,5 @@
 import React from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {StyleSheet, View, Button} from 'react-native';
 import FreeScreen from './Free/FreeScreen';
 import QuestionScreen from './Question/QuestionScreen';
 import CertificationScreen from './Certification/CertificationScreen';

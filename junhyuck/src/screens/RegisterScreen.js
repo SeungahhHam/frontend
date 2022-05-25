@@ -160,7 +160,7 @@ function RegisterScreen() {
         />
         <Text style={styles.error}>{errortext}</Text>
 
-        <Button title="다음" onPress={registerButton}></Button>
+        <Button title="다음" onPress={registerButton} color="#009688"></Button>
 
         <View style={{flexDirection: 'row', marginTop: 20}}>
           <Text>Already have an account? </Text>
@@ -177,14 +177,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    marginTop: 30,
   },
   wrapper: {
     width: '80%',
     marginTop: 20,
   },
   input: {
-    marginBottom: 12,
+    marginBottom: 13,
     borderWidth: 1,
     borderColor: '#bbb',
     borderRadius: 5,
@@ -205,6 +205,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   circle: {
+    marginBottom: 5,
     backgroundColor: '#cdcdcd',
     borderRadius: 64,
     width: 128,

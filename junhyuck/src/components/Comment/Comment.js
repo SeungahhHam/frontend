@@ -1,13 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  ScrollView,
-  StyleSheet,
-  Image,
-  TextInput,
-  TouchableOpacity,
-  Keyboard,
-} from 'react-native';
+import {View, TextInput, TouchableOpacity, Keyboard} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-community/async-storage';
 import {BASE_URL} from '../../config';
@@ -16,7 +8,6 @@ function Comment({detailId, board}) {
   const [Text, setText] = useState('');
   const [userNickname, setUserNickname] = useState('');
   const [userProfile, setUserProfile] = useState('');
-  const Comment_Id = detailId;
 
   useEffect(() => {
     async function load() {

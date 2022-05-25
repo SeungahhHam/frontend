@@ -1,27 +1,19 @@
 import React, {useState, useEffect} from 'react';
 import {
-  FlatList,
   Text,
   View,
   ScrollView,
   StyleSheet,
   Image,
   TextInput,
-  Alert,
   TouchableOpacity,
-  BackHandler,
+  ActivityIndicator,
 } from 'react-native';
-import Styled from 'styled-components/native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import Swiper from 'react-native-swiper';
-
-import axios from 'axios';
 import {BASE_URL} from '../config';
-import {useIsFocused} from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
 
 const FeedsSCREEN = ({navigation}) => {
-  const [selectedId, setSelectedId] = useState(null);
   const [title, setTitle] = useState('');
 
   function Handle() {
@@ -29,9 +21,6 @@ const FeedsSCREEN = ({navigation}) => {
   }
 
   const [feedList, setData] = useState('');
-  const [feedList2, setData2] = useState('');
-  const isFocused = useIsFocused();
-
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -57,7 +46,15 @@ const FeedsSCREEN = ({navigation}) => {
   }, []);
 
   const ImageList = loading ? (
-    <Text>Loading...</Text>
+    <ActivityIndicator
+      animating={loading}
+      color="#6990F7"
+      size="large"
+      style={{
+        alignItems: 'center',
+        height: 80,
+      }}
+    />
   ) : (
     feedList.slice(0, 5).map(list => (
       <View style={styles.slide1}>
@@ -78,10 +75,6 @@ const FeedsSCREEN = ({navigation}) => {
       </View>
     ))
   );
-
-  const isselcted = val => {
-    setSelectionMode(val);
-  };
 
   return (
     <View>
@@ -295,27 +288,6 @@ const FeedsSCREEN = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
-  /*flexcolumn2: { flexDirection:'column', marginTop:50},
-  formdl: { marginBottom: 25,flexDirection: 'column',  },
-  formdt: {marginBottom: 10,},
-  formdd: {flexDirection:'row'},
-  formTit: {paddingHorizontal: 15,lineHeight: 15,fontSize: 12,color: '#000',  },
-  formInput: {flex:1,paddingHorizontal: 15,height:48,lineHeight: 48,fontSize: 15,color: '#444',backgroundColor: '#f2f2f1',borderRadius: 10,  },
-  formTextarea: {paddingHorizontal: 15,paddingVertical: 15,height:114,lineHeight: 48,fontSize: 15,color: '#444',backgroundColor: '#f2f2f1',borderRadius: 10,  },
-  formSelect: {paddingHorizontal: 15,height:48,lineHeight: 48,fontSize: 15,color: '#444',backgroundColor: '#f2f2f1',borderRadius: 10,},
-  formBtn: {marginLeft:12,flexShrink:0,flexBasis:100,borderWidth:1,borderColor:'#ddd',color:'#a8a8a8',height:48,lineHeight: 48,fontSize: 14,borderRadius: 10,textAlign:'center'},
-  formError:{marginTop:8,paddingHorizontal:15,lineHeight:14,fontSize:12,color:'#ff3c51'},
-  formDrop:{position:'absolute',top: '50%',right: 20,marginTop: -6,},
-
-  myaccountTop:{flexDirection:'row',justifyContent:'space-between',marginBottom:25,},
-  myaccountTit:{lineHeight:32,fontSize:18,fontWeight:'600',color:'#000'},
-  myaccountAct:{flex:0,flexShrink:1,paddingHorizontal:18,lineHeight:32,fontSize:14,fontWeight:'300',color:'#a8a8a8',borderRadius:32,borderWidth:1,borderColor:'#a8a8a8',backgroundColor:'#fff'},
-
-  myaccountBot:{marginTop:10,marginBottom:10 },
-  myaccountdt:{flex:0,flexShrink:1,lineHeight:20,paddingLeft:15,fontSize:12,fontWeight:'300',color:'#8d8d8f',width:160, borderTopRightRadius:30,borderTopLeftRadius:30},
-  myaccountdl:{flexDirection:'row',paddingRight:15,justifyContent:'space-between',alignItems:'center',paddingTop:15,paddingBottom:15,},    
-  myaccountdd:{flex:0,flexShrink:1,lineHeight:20,fontSize:14,fontWeight:'600',color:'#000',textAlign:'right',width:250, marginTop:5 ,marginBottom: 5 },
-  */
   bgwhite: {backgroundColor: '#ffffff'},
   wrapper: {height: 400},
 
@@ -327,15 +299,9 @@ const styles = StyleSheet.create({
   },
   slide2: {
     flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // backgroundColor: '#97CAE5'
   },
   slide3: {
     flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // backgroundColor: '#92BBD9'
   },
   text: {
     color: '#fff',

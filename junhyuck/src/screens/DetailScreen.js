@@ -1,9 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {Text, View, ScrollView} from 'react-native';
 import axios from 'axios';
-import {useIsFocused} from '@react-navigation/native';
 import {BASE_URL} from '../config';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {WebView} from 'react-native-webview';
 
 const DetailScreen = ({route, navigation}) => {
@@ -61,7 +60,6 @@ const DetailScreen = ({route, navigation}) => {
     _callApi();
   }, []);
 
-  const isFocused = useIsFocused();
   const [userToken, setUserToken] = useState(
     'eyJhbGciOiJIUzI1NiJ9.NjI3MWZmODI0YzQ5ODA0NzRhODkxYjhm.nR6p6n_7Xu0hRTm4BaDtr6IRVg2dXXoKFmf20k04n1s',
   );
@@ -105,10 +103,6 @@ const DetailScreen = ({route, navigation}) => {
       }}>
       <View style={{marginBottom: 20, paddingHorizontal: 15}}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          {/*  <View style={{width:50,height:50,flexShrink:0,marginRight:10,alignItems:'center',justifyContent:'center',overflow:'hidden'}}>
-              <Text>이미지</Text>
-            </View>
- */}
           <View style={{paddingHorizontal: 5, paddingTop: 15}}>
             <Text style={{fontSize: 25, fontWeight: 'bold', color: '#009688'}}>
               {mntnnm}
@@ -124,12 +118,21 @@ const DetailScreen = ({route, navigation}) => {
           </View>
 
           <View style={{flexShrink: 0, marginLeft: 10, flexDirection: 'row'}}>
-            {/*  <Text style={{paddingHorizontal:10,fontSize:11,color:'#666',textAlign:'center'}}>빈구름{'\n'}이미지</Text> */}
-            <Text>날씨 : {weatherList}</Text>
             {weatherList === 'Clouds' ? (
-              <Icon name={cloud} size={24} color={'black'} />
+              <View style={{flexDirection: 'row', marginLeft: 150}}>
+                <Text style={{fontSize: 18, marginRight: 5}}>날씨 : 흐림</Text>
+                <Icon name="weather-cloudy" size={24} color="black" />
+              </View>
+            ) : weatherList === 'Clear' ? (
+              <View style={{flexDirection: 'row', marginLeft: 150}}>
+                <Text style={{fontSize: 18, marginRight: 5}}>날씨 : 맑음</Text>
+                <Icon name="weather-sunny" size={24} color="red" />
+              </View>
             ) : (
-              <Text>맑음</Text>
+              <View style={{flexDirection: 'row', marginLeft: 150}}>
+                <Text style={{fontSize: 18, marginRight: 5}}>날씨 : 비</Text>
+                <Icon name="weather-pouring" size={24} color="black" />
+              </View>
             )}
           </View>
         </View>
@@ -171,7 +174,7 @@ const DetailScreen = ({route, navigation}) => {
             }}
             style={{
               width: '100%',
-              height: 250,
+              height: 200,
               backgroundColor: '#eee',
               alignItems: 'center',
               justifyContent: 'center',

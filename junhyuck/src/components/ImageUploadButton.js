@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {View, Pressable, StyleSheet, Platform, Image} from 'react-native';
 import UploadModeModal from './UploadModeModal';
 import {launchImageLibrary, launchCamera} from 'react-native-image-picker';
+import {BASE_URL} from '../config';
 
 const TABBAR_HEIGHT = 49;
 
@@ -55,7 +56,7 @@ function ImageUploadButton({getImageUrl}) {
       // headers를 위처럼 따로 지정해 주지 않아도 되긴 함
     };
 
-    await fetch('http://3.34.32.228:5000/api/image/uploadBoard', requestOptions)
+    await fetch(`${BASE_URL}/api/image/uploadBoard`, requestOptions)
       .then(response => response.text())
       .then(result => setBoardImage(result))
       .catch(error => console.log('error', error));
@@ -103,7 +104,7 @@ function ImageUploadButton({getImageUrl}) {
       // headers를 위처럼 따로 지정해 주지 않아도 되긴 함
     };
 
-    await fetch('http://3.34.32.228:5000/api/image/uploadBoard', requestOptions)
+    await fetch(`${BASE_URL}/api/image/uploadBoard`, requestOptions)
       .then(response => response.text())
       .then(result => setBoardImage(result))
       .catch(error => console.log('error', error));

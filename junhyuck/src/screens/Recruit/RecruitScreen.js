@@ -1,11 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  ScrollView,
-  ActivityIndicator,
-} from 'react-native';
+import {StyleSheet, View, ScrollView, ActivityIndicator} from 'react-native';
 import RecruitFloatingWriteButton from './RecruitFloatingWriteButton';
 import RecruitSearchBar from '../../components/RecruitSearchBar';
 import RecruitList from './RecruitListItem';

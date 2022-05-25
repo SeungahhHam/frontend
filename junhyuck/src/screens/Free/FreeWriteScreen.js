@@ -50,6 +50,8 @@ function FreeWriteScreen() {
       userImage: userProfile,
     };
 
+    console.log(dataToSend);
+
     fetch(`${BASE_URL}/api/community/free/init`, {
       method: 'POST',
       headers: {

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Pressable, StyleSheet, Text, Alert, View, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {BASE_URL} from '../../config';
@@ -6,9 +6,21 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import Moidfy_DeleteModeModal from '../../components/Modify_DeleteModeModal';
 import Comment from '../../components/Comment/Comment';
 import CommentScreen from '../../components/Comment/CommentScreen';
+import AsyncStorage from '@react-native-community/async-storage';
 
 function RecruitDetailScreen({route}) {
   const [modalVisible, setModalVisible] = useState(false);
+
+  useEffect(() => {
+    async function load() {
+      try {
+        const userDatas = await AsyncStorage.getItem('userData'); //로그인할 때 저장된 정보들 불러오기
+        const saveduserDatas = JSON.parse(userDatas);
+        setUserToken(saveduserDatas.token);
+      } catch (e) {}
+    }
+    load();
+  }, []);
 
   const log1 = route.params?.title;
   const log2 = route.params?.body;
@@ -29,6 +41,8 @@ function RecruitDetailScreen({route}) {
   const [detailLocal, setDetailLocal] = useState(log7);
   const [detailGender, setDetailGender] = useState(log8);
   const [detailPeople, setDetailPeople] = useState(log9);
+  const [userToken, setUserToken] = useState('');
+
   const board = 'recruit';
 
   const onOpenProfile = () => {};
@@ -36,6 +50,7 @@ function RecruitDetailScreen({route}) {
   const navigation = useNavigation();
   var dataToSend = {
     _id: detailId,
+    token: userToken,
   };
   const onAskDelete = () => {
     Alert.alert(
@@ -62,6 +77,7 @@ function RecruitDetailScreen({route}) {
                 navigation.pop();
               } catch (err) {
                 console.log(err);
+                console.log('사용자가 일치하지 않습니다');
               }
             });
           },
@@ -125,9 +141,9 @@ function RecruitDetailScreen({route}) {
           <Text style={styles.displayTitle}>{detailTitle}</Text>
 
           <Text style={styles.description}>
-            {detailLocal == null ? '' : <Text>[{detailLocal}]</Text>}
-            {detailGender == null ? '' : <Text>[{detailGender}]</Text>}
-            {detailPeople == null ? '' : <Text>[{detailPeople}]</Text>}
+            {detailLocal == '도' ? '' : <Text>[{detailLocal}]</Text>}
+            {detailGender == '자' ? '' : <Text>[{detailGender}]</Text>}
+            {detailPeople == '명' ? '' : <Text>[{detailPeople}]</Text>}
           </Text>
           <Text style={styles.description}>{detailBody}</Text>
         </View>
@@ -142,23 +158,28 @@ const styles = StyleSheet.create({
   block: {
     paddingTop: 16,
     paddingBottom: 16,
+    backgroundColor: '#ffffff',
   },
   avator: {
     width: 32,
     height: 32,
     borderRadius: 16,
+    backgroundColor: '#ffffff',
   },
   buttonlist: {
     alignItems: 'flex-end',
+    backgroundColor: '#ffffff',
   },
   paddingBlock: {
     paddingHorizontal: 16,
+    backgroundColor: '#ffffff',
   },
   head: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: 16,
+    backgroundColor: '#ffffff',
   },
   profile: {
     flexDirection: 'row',
@@ -171,12 +192,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   displayTitle: {
-    color: '#263238',
+    color: 'black',
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 8,
   },
   description: {
+    color: 'black',
     fontSize: 16,
     lineHeight: 24,
     marginBottom: 16,

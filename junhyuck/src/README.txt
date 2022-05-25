@@ -8,7 +8,7 @@ yarn add react-native-vector-icons
 >> android/app/build.gradle 디렉토리에서 최하단에 다음 코드 추가
 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 project.ext.vectoricons =[
-    iconFontNames:['MaterialIcons.ttf']
+    iconFontNames:['MaterialIcons.ttf','MaterialCommunityIcons.ttf']
 ]
 
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
@@ -45,3 +45,11 @@ android/app/src/main/AndroidMainfest.xml
  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />		//위치정보 받기위한 권한들
 ---------------------------------------------------------------------------------------------
 
+>> android/app/build.gradle 디렉토리에서 최하단에 다음 코드 추가
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+project.ext.vectoricons =[
+    iconFontNames:['MaterialIcons.ttf','MaterialCommunityIcons.ttf']
+]
+
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 

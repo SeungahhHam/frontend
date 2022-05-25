@@ -1,7 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {Pressable, StyleSheet, View, Platform, Image} from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
-import AsyncStorage from '@react-native-community/async-storage';
 
 function SetupProfile() {
   const [response, setResPonse] = useState(null);

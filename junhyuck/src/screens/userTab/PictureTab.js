@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, ActivityIndicator, ScrollView} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import {BASE_URL} from '../../config';
 import CertificationList from '../Certification/CertificationListItem';
 
 function PictureTab() {
   const [lists, setLists] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [userToken, setUserToken] = useState('');
 
   useEffect(() => {
     async function load() {

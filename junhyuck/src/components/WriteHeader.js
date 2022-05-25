@@ -1,7 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {Pressable, StyleSheet, View, Text} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import {StyleSheet, View, Text} from 'react-native';
 import TransparentCircleButton from './TransparentCircleButton';
 
 function WriteHeader({onSave, board}) {
