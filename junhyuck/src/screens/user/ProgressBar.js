@@ -2,7 +2,8 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import * as Progress from 'react-native-progress';
 import {BASE_URL} from '../../config';
-import {useWindowDimensions} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+import useWindowDimensions from 'react-native/Libraries/Utilities/useWindowDimensions';
 
 function ProgressBar() {
   //화면 가로 면적
@@ -39,7 +40,7 @@ function ProgressBar() {
         {/*유저 레벨*/}
         <Text style={styles.level}>Level {list.level}</Text>
         <Progress.Bar
-          color="green"
+          color="#009688"
           progress={list.badgeProgress} //진행률
           width={(layout.width * 4) / 5} //진행바 길이
         />

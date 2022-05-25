@@ -1,13 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import FeedScreen from './FeedsScreen';
 import CommunityStack from './CommunityStack';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {View, StyleSheet, Linking, Image} from 'react-native';
+import {View, StyleSheet, Image} from 'react-native';
 import TransparentCircleButton from '../components/TransparentCircleButton';
 import {useNavigation} from '@react-navigation/native';
 import CameraButton from '../components/CameraButton';
-import AsyncStorage from '@react-native-community/async-storage';
 
 const Tab = createBottomTabNavigator();
 
@@ -19,6 +18,11 @@ function MainTab() {
   const onGoHelp = () => {
     {
       navigation.navigate('HelpPage');
+    }
+  };
+  const onLogin = () => {
+    {
+      navigation.navigate('Auth');
     }
   };
 
@@ -39,7 +43,7 @@ function MainTab() {
                   <TransparentCircleButton
                     name="warning"
                     color="red"
-                    onPress={onGoHelp}
+                    onPress={onLogin}
                   />
                 </View>
               ),
@@ -97,8 +101,8 @@ function MainTab() {
             }}
           />
         </Tab.Navigator>
+        <CameraButton />
       </View>
-      <CameraButton />
     </>
   );
 }

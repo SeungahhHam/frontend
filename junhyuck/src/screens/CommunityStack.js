@@ -1,6 +1,5 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {StyleSheet, View, Button} from 'react-native';
 import SearchScreen from './SearchScreen';
 import FreeWriteScreen from './Free/FreeWriteScreen';
 import FreeDetail from './Free/FreeDetailScreen';

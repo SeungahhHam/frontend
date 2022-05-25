@@ -8,7 +8,7 @@ import SplashScreen from './SplashScreen';
 import Keyword from './KeywordScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import TransparentCircleButton from '../components/TransparentCircleButton';
-import {StyleSheet, View, Text, Button, Alert} from 'react-native';
+import {StyleSheet, View, Alert} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import ListPage from './ListScreen';
@@ -145,8 +145,8 @@ function RootStack() {
           headerLeft: () => (
             <View style={styles.buttons}>
               <TransparentCircleButton
-                name="arrow-back-ios"
-                color="#009688"
+                name="warning"
+                color="red"
                 onPress={onGoHelp}
               />
             </View>
@@ -212,7 +212,7 @@ function RootStack() {
               />
             </View>
           ),
-          title: '로고!!!',
+          title: '내정보',
           headerTitleAlign: 'center',
           headerRight: () => (
             <View style={styles.buttons}>

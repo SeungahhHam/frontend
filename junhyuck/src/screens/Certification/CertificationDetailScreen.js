@@ -1,23 +1,27 @@
-import React, {useState} from 'react';
-import {
-  Pressable,
-  StyleSheet,
-  Text,
-  Alert,
-  View,
-  Image,
-  KeyboardAvoidingView,
-} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {Pressable, StyleSheet, Text, Alert, View, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {BASE_URL} from '../../config';
 import Moidfy_DeleteModeModal from '../../components/Modify_DeleteModeModal';
 import Comment from '../../components/Comment/Comment';
 import CommentScreen from '../../components/Comment/CommentScreen';
-import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import AsyncStorage from '@react-native-community/async-storage';
 
 function CertificationDetailScreen({route}) {
   const [modalVisible, setModalVisible] = useState(false);
+
+  useEffect(() => {
+    async function load() {
+      try {
+        const userDatas = await AsyncStorage.getItem('userData'); //로그인할 때 저장된 정보들 불러오기
+        const saveduserDatas = JSON.parse(userDatas);
+        setUserToken(saveduserDatas.token);
+      } catch (e) {}
+    }
+    load();
+  }, []);
 
   const log1 = route.params?.title;
   const log2 = route.params?.body;
@@ -34,6 +38,8 @@ function CertificationDetailScreen({route}) {
   const [detailName, setDetailName] = useState(log5);
   const [detailUserImage, setDetailUserImage] = useState(log6);
   const [detailBoardImage, setDetailBoardImage] = useState(log7);
+  const [userToken, setUserToken] = useState('');
+
   const board = 'certify';
 
   const onOpenProfile = () => {};
@@ -41,6 +47,7 @@ function CertificationDetailScreen({route}) {
   const navigation = useNavigation();
   var dataToSend = {
     _id: detailId,
+    token: userToken,
   };
   const onAskDelete = () => {
     Alert.alert(
@@ -153,15 +160,18 @@ function CertificationDetailScreen({route}) {
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
+    backgroundColor: '#ffffff',
   },
   block: {
     paddingTop: 16,
     paddingBottom: 16,
+    backgroundColor: '#ffffff',
   },
   avator: {
     width: 32,
     height: 32,
     borderRadius: 16,
+    backgroundColor: '#ffffff',
   },
   buttonlist: {
     alignItems: 'flex-end',
@@ -186,12 +196,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   displayTitle: {
-    color: '#263238',
+    color: 'black',
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 8,
   },
   description: {
+    color: 'black',
     fontSize: 16,
     lineHeight: 24,
     marginBottom: 16,

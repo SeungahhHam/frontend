@@ -1,11 +1,5 @@
-import React, {useContext, useState, useEffect} from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  ScrollView,
-  ActivityIndicator,
-} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {StyleSheet, View, ScrollView, ActivityIndicator} from 'react-native';
 import QuestionFloatingWriteButton from './QuestionFloatingWriteButton';
 import SearchBar from '../../components/SearchBar';
 import QuestionList from './QuestionListItem';

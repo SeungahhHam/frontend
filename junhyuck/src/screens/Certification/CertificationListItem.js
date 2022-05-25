@@ -3,7 +3,6 @@ import {Pressable, StyleSheet, Text, Platform, View, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {ko} from 'date-fns/locale';
 import {format, formatDistanceToNow} from 'date-fns';
-import AsyncStorage from '@react-native-community/async-storage';
 
 function formatDate(date) {
   const d = new Date(date);

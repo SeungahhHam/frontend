@@ -7,7 +7,6 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
-  Keyboard,
   Alert,
   Button,
 } from 'react-native';
@@ -70,7 +69,11 @@ function LoginScreen({navigation}) {
 
   return (
     <SafeAreaView style={styles.fullScreen}>
-      <Text style={styles.text}>Mountain_Project</Text>
+      <Image
+        style={styles.image}
+        source={require('../Assets/images/logo.jpg')}
+      />
+      <Text style={styles.text}>산넘어산</Text>
       <View style={styles.form}>
         <TextInput
           style={[styles.input, styles.margin]}
@@ -89,7 +92,10 @@ function LoginScreen({navigation}) {
           blurOnSubmit={false}
           secureTextEntry
         />
-        <Button title="로그인" onPress={handleSubmitButton}></Button>
+        <Button
+          title="로그인"
+          onPress={handleSubmitButton}
+          color="#009688"></Button>
         <View style={{flexDirection: 'row', marginTop: 20}}>
           <Text>Don't have an account? </Text>
           <TouchableOpacity onPress={() => navigation.navigate('Register')}>
@@ -105,14 +111,21 @@ const styles = StyleSheet.create({
   fullScreen: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    marginTop: 70,
+  },
+  image: {
+    height: 150,
+    width: 150,
+    resizeMode: 'contain',
+    borderRadius: 100,
   },
   text: {
+    marginTop: -10,
     fontSize: 32,
     fontWeight: 'bold',
   },
   form: {
-    marginTop: 64,
+    marginTop: 60,
     width: '100%',
     paddingHorizontal: 16,
   },
@@ -129,6 +142,9 @@ const styles = StyleSheet.create({
   },
   link: {
     color: 'blue',
+  },
+  avoid: {
+    flex: 1,
   },
 });
 

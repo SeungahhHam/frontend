@@ -8,7 +8,6 @@ function CommentScreen({detailId, board}) {
   const [lists, setLists] = useState([]);
   const [loading, setLoading] = useState(true);
   const isFocused = useIsFocused();
-  const Board_id = board;
 
   var dataToSend = {
     _id: detailId,

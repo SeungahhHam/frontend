@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-
 import {
   FlatList,
   Text,
@@ -18,6 +17,14 @@ const ListScreen = ({route, navigation}) => {
   const {gtype, keyword} = route.params;
   const [feedList, setData] = useState('');
   const [loading, setLoading] = useState(true);
+
+  function truncate(text) {
+    const replaced = text.replace(/\n/g, ' ');
+    if (replaced.length <= 100) {
+      return replaced;
+    }
+    return replaced.slice(0, 100).concat('...');
+  }
 
   if (gtype == 'keyword') {
     var params = {
@@ -50,7 +57,7 @@ const ListScreen = ({route, navigation}) => {
   }, []);
 
   return (
-    <Container style={{marginTop: 18}}>
+    <Container>
       {loading ? (
         <ActivityIndicator
           animating={loading}
@@ -62,7 +69,7 @@ const ListScreen = ({route, navigation}) => {
           }}
         />
       ) : (
-        <View style={{paddingHorizontal: 15}}>
+        <View style={{paddingHorizontal: 15, backgroundColor: '#ffffff'}}>
           <FlatList
             data={feedList.slice(0, feedList.length)}
             keyExtractor={(item, index) => {
@@ -71,7 +78,7 @@ const ListScreen = ({route, navigation}) => {
             renderItem={({item, index}) => (
               <View
                 style={{
-                  paddingTop: 10,
+                  paddingTop: 20,
                   flexDirection: 'row',
                   marginBottom: 10,
                   borderWidth: 2,
@@ -92,13 +99,13 @@ const ListScreen = ({route, navigation}) => {
                   <View
                     style={{
                       flexShrink: 0,
-                      width: 100,
-                      alignItems: 'center',
+                      width: '100%',
+                      paddingHorizontal: 20,
                       justifyContent: 'center',
                       overflow: 'hidden',
                     }}>
                     <Image
-                      style={{zIndex: 5, width: 200, height: 100}}
+                      style={{zIndex: 5, width: 300, height: 150}}
                       source={{uri: item.mntnattchimageseq}}></Image>
                   </View>
                   <View
@@ -117,7 +124,7 @@ const ListScreen = ({route, navigation}) => {
                       {item.mntnnm}
                     </Text>
                     <Text style={{marginTop: 5, fontSize: 14, color: '#666'}}>
-                      {item.hndfmsmtnslctnrson}
+                      {truncate(item.hndfmsmtnslctnrson)}
                     </Text>
                     <View
                       style={{
@@ -125,14 +132,8 @@ const ListScreen = ({route, navigation}) => {
                         flexDirection: 'row',
                         alignItems: 'center',
                       }}>
-                      <Text style={{fontSize: 13, color: '#666'}}>Info</Text>
-                      <Text
-                        style={{
-                          marginLeft: 30,
-                          fontSize: 13,
-                          color: '#009688',
-                        }}>
-                        리뷰 보기
+                      <Text style={{fontSize: 13, color: '#009688'}}>
+                        자세히 보기
                       </Text>
                     </View>
                   </View>

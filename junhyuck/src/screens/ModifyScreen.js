@@ -4,7 +4,6 @@ import {StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import ModifyWriteEditor from './ModifyWriteEditor';
 import WriteHeader from '../components/WriteHeader';
-import {v4 as uuidv4} from 'uuid';
 import {BASE_URL} from '../config';
 import AsyncStorage from '@react-native-community/async-storage';
 

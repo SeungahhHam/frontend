@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Pressable, StyleSheet, Text, Platform, View, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {ko} from 'date-fns/locale';
